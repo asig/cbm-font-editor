@@ -2,27 +2,27 @@ class Char {
 
     constructor(data) {
         if (data == null) {
-            data = Array(8).fill(0).map(x => Array(8).fill(0))
+            data = [0,0,0,0,0,0,0,0]
         }
         this.data = data;
         this.get = this.get.bind(this)
-        this.set = this.set.bind(this)
-        this.invert = this.invert.bind(this)
+        // this.set = this.set.bind(this)
     }
 
     get(x, y) {
-        return this.data[y][x]
+        const b = this.data[y]
+        return (b & (1<<x)) > 0
     }
 
-    set(x, y, val) {
-        var res = this.data.map(row => row.map(col => col))
-        res[y][x] = val
-        return new Char(res)
-    }
-
-    invert() {
-        return new Char(this.data.map(row => row.map(col => col === 0 ? 1 : 0)))
-    }
+    // set(x, y, val) {
+    //     var res = this.data.map(b => b)
+    //     if (val > 0) {
+    //         res[y] = res[y] | (1<<x)
+    //     } else {
+    //         res[y] = res[y] & ~(1<<x)
+    //     }
+    //     return new Char(res)
+    // }
 }
 
 export default Char;
