@@ -1,0 +1,11 @@
+[X] implement char selection
+[X] In FontView don't always update *all* the chars, but just the one that changed.
+[ ] Implement save
+    [ ] binary
+    [ ] cbmasm format
+[ ] implement undo/redo
+[ ] add Multicolor support
+
+
+
+Logo: https://upload.wikimedia.org/wikipedia/de/e/e3/Commodore_64_logo.svg

@@ -1,0 +1,8 @@
+.CharView {
+    padding: 2px;
+}
+
+.CharView.selected {
+    padding: 0px;
+    border: 2px solid red;
+}

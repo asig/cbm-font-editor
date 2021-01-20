@@ -1,5 +1,5 @@
 import React from 'react';
-import Char from './Char'
+import Char from './model/Char'
 
 class CharEditField extends React.Component {
 
@@ -65,6 +65,8 @@ class CharEditField extends React.Component {
         const x = Math.floor(e.pageX/ew)
         const y = Math.floor(e.pageY/eh)
         if (x < 0 || x > 7 || y < 0 || y > 7) return;
+        this.px = x;
+        this.py = y;
 
         var pix = this.state.data.get(x,y)
         if (pix) {
@@ -88,6 +90,9 @@ class CharEditField extends React.Component {
             const x = Math.floor(e.pageX/ew)
             const y = Math.floor(e.pageY/eh)
             if (x < 0 || x > 7 || y < 0 || y > 7) return;
+            if (this.px === x && this.py === y) return;
+            this.px = x;
+            this.py = y;
 
             this.props.setPixel(x, y, this.pixelVal)
         }

@@ -6,16 +6,15 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCaretDown, faCaretLeft, faCaretRight, faCaretUp} from "@fortawesome/free-solid-svg-icons";
 
 function DirectionTable(props) {
-    return <table>
+    return <table style={{border: "1px solid green"}}>
         <thead>
         <tr>
-            <td colSpan={3}>{props.title}</td>
+            <td align={"center"} colSpan={2}>{props.title}</td>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td/>
-            <td>
+            <td align={"center"} colSpan={2}>
                 <Button
                     variant="outlined"
                     color="primary"
@@ -23,7 +22,6 @@ function DirectionTable(props) {
                     <FontAwesomeIcon icon={faCaretUp}/>
                 </Button>
             </td>
-            <td/>
         </tr>
         <tr>
             <td>
@@ -34,7 +32,6 @@ function DirectionTable(props) {
                     <FontAwesomeIcon icon={faCaretLeft}/>
                 </Button>
             </td>
-            <td/>
             <td>
                 <Button
                     variant="outlined"
@@ -45,8 +42,7 @@ function DirectionTable(props) {
             </td>
         </tr>
         <tr>
-            <td/>
-            <td>
+            <td align={"center"} colSpan={2}>
                 <Button
                     variant="outlined"
                     color="primary"
@@ -59,6 +55,5 @@ function DirectionTable(props) {
         </tbody>
     </table>;
 }
-
 
 export default DirectionTable;
