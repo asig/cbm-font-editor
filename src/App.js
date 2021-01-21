@@ -64,12 +64,24 @@ class App extends React.Component {
         this.redoBtnRef = React.createRef()
 
         this.font = new Font(null);
+        this.selectedChar = 0;
 
-        this.history = [{selected: 0}];
+        this.history = [{selected: 0, ch : new Char(null)}];
         this.historyCurPos = 0;
     }
 
     applyHistoryState(s) {
+        if ('selected' in s) {
+            this.selectedChar = s.selected
+            this.fontViewRef.current.selectChar(this.selectedChar);
+            this.charEditFieldRef.current.setChar(this.font.getChar(this.selectedChar))
+        }
+        if ('ch' in s) {
+            this.charEditFieldRef.current.setChar(s.ch)
+            const fv = this.fontViewRef.current
+            fv.updateChar(this.selectedChar, s.ch);
+            this.font.setChar(this.selectedChar, s.ch)
+        }
     }
 
     addToHistory(s) {
@@ -110,26 +122,13 @@ class App extends React.Component {
     }
 
     updateChar(modifierFunc) {
-        const ef = this.charEditFieldRef.current
+        const newChar = modifierFunc(this.font.getChar(this.selectedChar))
+        this.font.setChar(this.selectedChar, newChar)
 
-        // setState callback will be called multiple times. No idea why this is, but we need to make sure that
-        // addToHistory is only called once.
-        var stateCallbackCalled = false;
+        this.addToHistory({ch: newChar})
 
-        ef.setState((state) => {
-                const fv = this.fontViewRef.current
-                const oldChar = state.data
-                const  newChar = modifierFunc(state.data)
-                fv.updateSelectedChar(newChar);
-                this.font.setChar(fv.selected, newChar)
-
-                if (!stateCallbackCalled) {
-                    this.addToHistory({ch: newChar})
-                }
-                stateCallbackCalled = true;
-                return {data: newChar}
-            }
-        );
+        this.charEditFieldRef.current.setChar(newChar)
+        this.fontViewRef.current.updateChar(this.selectedChar, newChar);
     }
 
     setPixel(x, y, val) {
@@ -173,9 +172,10 @@ class App extends React.Component {
     }
 
     selectChar(i) {
-        const oldSel = this.fontViewRef.current.selected
-        if (oldSel === i) return;
-
+        if (this.selectedChar === i) {
+            return
+        }
+        this.selectedChar = i;
         const c = this.font.getChar(i)
         this.charEditFieldRef.current.setState({data: c})
         this.fontViewRef.current.selectChar(i);
@@ -205,10 +205,10 @@ class App extends React.Component {
             fv.setFont(this.font)
 
             // Set selected char
-            const ch = this.font.getChar((fv.selected))
-            cef.setState({data: ch})
+            const ch = this.font.getChar(this.selectedChar)
+            cef.setChar(ch)
 
-            this.resetHistory({ch: ch})
+            this.resetHistory({ch: ch, selected: this.selectedChar})
         };
         reader.onerror = (e) => {
             this.errorMsgRef.current.showError("Error while loading file: " + e)

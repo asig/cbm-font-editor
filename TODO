@@ -3,7 +3,7 @@
 [ ] Implement save
     [ ] binary
     [ ] cbmasm format
-[ ] implement undo/redo
+[X] implement undo/redo
 [ ] add Multicolor support
 
 

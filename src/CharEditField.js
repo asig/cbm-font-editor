@@ -11,7 +11,8 @@ class CharEditField extends React.Component {
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
-        this.drawCanvas = this.drawCanvas.bind(this)
+        this.drawCanvas = this.drawCanvas.bind(this);
+        this.setChar = this.setChar.bind(this);
 
         this.state = {
             data: new Char(null)
@@ -21,6 +22,13 @@ class CharEditField extends React.Component {
         this.pixelVal = 0
 
         this.canvasRef = React.createRef();
+    }
+
+    setChar(c) {
+        if (c === undefined) {
+            console.log("NOT GOOD")
+        }
+        this.setState({data: c})
     }
 
     drawCanvas() {
