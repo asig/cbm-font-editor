@@ -23,7 +23,6 @@ class CharView extends React.Component {
     }
 
     drawCanvas(i) {
-        console.log()
         const canvas = this.canvasRef.current;
         const ctx = canvas.getContext('2d');
         const ew = canvas.width/8;
