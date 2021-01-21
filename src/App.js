@@ -124,11 +124,9 @@ class App extends React.Component {
     updateChar(modifierFunc) {
         const newChar = modifierFunc(this.font.getChar(this.selectedChar))
         this.font.setChar(this.selectedChar, newChar)
-
-        this.addToHistory({ch: newChar})
-
         this.charEditFieldRef.current.setChar(newChar)
         this.fontViewRef.current.updateChar(this.selectedChar, newChar);
+        this.addToHistory({selected:this.selectedChar, ch: newChar})
     }
 
     setPixel(x, y, val) {
@@ -179,7 +177,7 @@ class App extends React.Component {
         const c = this.font.getChar(i)
         this.charEditFieldRef.current.setState({data: c})
         this.fontViewRef.current.selectChar(i);
-        this.addToHistory({ selected: i})
+        this.addToHistory({ selected: i, ch:c})
     }
 
     loadFont(f) {
@@ -208,7 +206,7 @@ class App extends React.Component {
             const ch = this.font.getChar(this.selectedChar)
             cef.setChar(ch)
 
-            this.resetHistory({ch: ch, selected: this.selectedChar})
+            this.resetHistory({selected: this.selectedChar, ch: ch})
         };
         reader.onerror = (e) => {
             this.errorMsgRef.current.showError("Error while loading file: " + e)
@@ -229,16 +227,6 @@ class App extends React.Component {
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <Paper>
-                        <FontView ref={this.fontViewRef}
-                                  zoom={4}
-                                  fgcol = "black"
-                                  bgcol="white"
-                                  onSelectChar={this.selectChar}
-                        />
-                    </Paper>
-                </Grid>
-                <Grid item xs={12}>
                     <Box display="flex" flexDirection="row" >
                         Commands
                     </Box>
@@ -301,6 +289,16 @@ class App extends React.Component {
                             </DisableableButton>
                         </Box>
                     </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper>
+                        <FontView ref={this.fontViewRef}
+                                  zoom={4}
+                                  fgcol = "black"
+                                  bgcol="white"
+                                  onSelectChar={this.selectChar}
+                        />
+                    </Paper>
                     <Grid container justify="flex-start" alignItems="stretch" spacing={3} direction="row">
                         <Grid item xs={12}>
                         </Grid>
