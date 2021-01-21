@@ -16,11 +16,12 @@ class FontView extends React.Component {
         this.selectChar = this.selectChar.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
 
+        this.selected = 0;
         this.charRefs = [...Array(256).keys()].map(i => React.createRef() )
     }
 
     componentDidMount() {
-        this.charRefs[0].current.setSelected(true)
+        this.charRefs[this.selected].current.setSelected(true)
     }
 
     setFont(f) {
@@ -34,9 +35,9 @@ class FontView extends React.Component {
     }
 
     selectChar(sel) {
-        for (var i = 0; i < 256; i++) {
-            this.charRefs[i].current.setSelected(i === sel)
-        }
+        this.charRefs[this.selected].current.setSelected(false)
+        this.selected = sel
+        this.charRefs[this.selected].current.setSelected(true)
     }
 
     renderCol(i) {
