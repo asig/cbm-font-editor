@@ -13,6 +13,7 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons"
 import Char from "./model/Char";
 import Font from "./model/Font";
 
+import SplitButton from "./SplitButton";
 import DisableableButton from "./DisableableButton";
 import CharEditField from "./CharEditField";
 import DirectionTable from "./DirectionTable";
@@ -34,17 +35,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.invert = this.invert.bind(this)
         this.render = this.render.bind(this)
-        this.setPixel = this.setPixel.bind(this)
-        this.rotateUp = this.rotateUp.bind(this)
-        this.rotateDown = this.rotateDown.bind(this)
-        this.rotateLeft = this.rotateLeft.bind(this)
-        this.rotateRight = this.rotateRight.bind(this)
-        this.shiftUp = this.shiftUp.bind(this)
-        this.shiftDown = this.shiftDown.bind(this)
-        this.shiftLeft = this.shiftLeft.bind(this)
-        this.shiftRight = this.shiftRight.bind(this)
         this.loadFont = this.loadFont.bind(this)
         this.updateChar = this.updateChar.bind(this)
         this.selectChar = this.selectChar.bind(this)
@@ -129,46 +120,6 @@ class App extends React.Component {
         this.addToHistory({selected:this.selectedChar, ch: newChar})
     }
 
-    setPixel(x, y, val) {
-        this.updateChar( (c) => c.set(x, y, val))
-    }
-
-    rotateUp() {
-        this.updateChar( (c) => c.rotateUp())
-    }
-
-    rotateDown() {
-        this.updateChar( (c) => c.rotateDown())
-    }
-
-    rotateLeft() {
-        this.updateChar( (c) => c.rotateLeft())
-    }
-
-    rotateRight() {
-        this.updateChar( (c) => c.rotateRight())
-    }
-
-    shiftUp() {
-        this.updateChar( (c) => c.shiftUp())
-    }
-
-    shiftDown() {
-        this.updateChar( (c) => c.shiftDown())
-    }
-
-    shiftLeft() {
-        this.updateChar( (c) => c.shiftLeft())
-    }
-
-    shiftRight() {
-        this.updateChar( (c) => c.shiftRight())
-    }
-
-    invert() {
-        this.updateChar( (c) => c.invert())
-    }
-
     selectChar(i) {
         if (this.selectedChar === i) {
             return
@@ -223,36 +174,36 @@ class App extends React.Component {
                         fgcol = "black"
                         bgcol="white"
                         bordercol="darkgray"
-                        setPixel={this.setPixel}
+                        setPixel={(x,y,val) => this.updateChar( (c) => c.set(x, y, val))}
                     />
                 </Grid>
                 <Grid item xs={8}>
                     <Box display="flex" flexDirection="row" >
-                        Commands
+                        Commands <SplitButton/>
                     </Box>
                     <Box display="flex" flexDirection="row" >
                         <Box m={1} >
                             <DirectionTable
-                                title="Rotate"
-                                onUp={this.rotateUp}
-                                onDown={this.rotateDown}
-                                onLeft={this.rotateLeft}
-                                onRight={this.rotateRight}
+                                title="Roll"
+                                onUp={() => this.updateChar( (c) => c.rollUp())}
+                                onDown={() => this.updateChar( (c) => c.rollDown())}
+                                onLeft={() => this.updateChar( (c) => c.rollLeft())}
+                                onRight={() => this.updateChar( (c) => c.rollRight())}
                             />
                         </Box>
                         <Box m={1} >
                             <DirectionTable
                                 title="Shift"
-                                onUp={this.shiftUp}
-                                onDown={this.shiftDown}
-                                onLeft={this.shiftLeft}
-                                onRight={this.shiftRight}
+                                onUp={() => this.updateChar( (c) => c.shiftUp())}
+                                onDown={() => this.updateChar( (c) => c.shiftDown())}
+                                onLeft={() => this.updateChar( (c) => c.shiftLeft())}
+                                onRight={() => this.updateChar( (c) => c.shiftRight())}
                             />
                         </Box>
                         <Box m={1} >
                             <Button
                                 variant="outlined"
-                                onClick={this.invert}>
+                                onClick={() => this.updateChar( (c) => c.invert())}>
                                 Invert
                             </Button>
                         </Box>

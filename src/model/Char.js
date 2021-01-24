@@ -7,10 +7,10 @@ class Char {
         this.data = data;
         this.get = this.get.bind(this)
         this.set = this.set.bind(this)
-        this.rotateLeft = this.rotateLeft.bind(this)
-        this.rotateRight = this.rotateRight.bind(this)
-        this.rotateUp = this.rotateUp.bind(this)
-        this.rotateDown = this.rotateDown.bind(this)
+        this.rollLeft = this.rollLeft.bind(this)
+        this.rollRight = this.rollRight.bind(this)
+        this.rollUp = this.rollUp.bind(this)
+        this.rollDown = this.rollDown.bind(this)
         this.shiftLeft = this.shiftLeft.bind(this)
         this.shiftRight = this.shiftRight.bind(this)
         this.shiftUp = this.shiftUp.bind(this)
@@ -49,22 +49,22 @@ class Char {
         return new Char(res);
     }
 
-    rotateLeft() {
+    rollLeft() {
         const b = this.data
         return new Char(b.map(v => ( (v << 1) | (v >> 7) ) & 0xff));
     }
 
-    rotateRight() {
+    rollRight() {
         const b = this.data
         return new Char(b.map(v => ((v >> 1) | ((v&1) << 7)) & 0xff));
     }
 
-    rotateUp() {
+    rollUp() {
         const b = this.data
         return new Char([b[1],b[2], b[3], b[4], b[5], b[6], b[7], b[0]]);
     }
 
-    rotateDown() {
+    rollDown() {
         const b = this.data
         return new Char([b[7], b[0], b[1],b[2], b[3], b[4], b[5], b[6]]);
 
