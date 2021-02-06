@@ -5,6 +5,14 @@ import Char from './model/Char'
 
 class CharView extends React.Component {
 
+    static defaultProps = {
+        fgcol: "black",
+        fillcol: "black",
+        bgcol: "white",
+        fillcolSelected: "#880000",
+        bgcolSelected: "#FFCCCC",
+    }
+
     constructor(props) {
         super(props);
 
@@ -34,9 +42,9 @@ class CharView extends React.Component {
             for (var x = 0; x < 8; x++) {
                 const v = ch.get(x,y)
                 if (v) {
-                    ctx.fillStyle = this.props.fgcol
+                    ctx.fillStyle = this.state.selected ? this.props.fillcolSelected : this.props.fillcol
                 } else {
-                    ctx.fillStyle = this.props.bgcol
+                    ctx.fillStyle = this.state.selected ? this.props.bgcolSelected : this.props.bgcol
                 }
                 ctx.fillRect(x*ew, y*eh, ew, eh);
             }

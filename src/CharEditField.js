@@ -3,6 +3,13 @@ import Char from './model/Char'
 
 class CharEditField extends React.Component {
 
+    static defaultProps = {
+        zoom: 30,
+        fgcol: "black",
+        bgcol:"white",
+        bordercol:"black"
+    }
+
     constructor(props) {
         super(props);
 
@@ -13,6 +20,7 @@ class CharEditField extends React.Component {
         this.mouseMove = this.mouseMove.bind(this);
         this.drawCanvas = this.drawCanvas.bind(this);
         this.setChar = this.setChar.bind(this);
+        this.getPixelCoords = this.getPixelCoords.bind(this);
 
         this.state = {
             data: new Char(null)
@@ -25,9 +33,6 @@ class CharEditField extends React.Component {
     }
 
     setChar(c) {
-        if (c === undefined) {
-            console.log("NOT GOOD")
-        }
         this.setState({data: c})
     }
 
@@ -63,18 +68,28 @@ class CharEditField extends React.Component {
         this.drawCanvas()
     }
 
-    mouseDown(e) {
-        this.pressed = true
+    getPixelCoords(evt) {
+        const canvas = this.canvasRef.current;
+        const rect = canvas.getBoundingClientRect()
+        const cx = evt.clientX - rect.left
+        const cy = evt.clientY - rect.top
 
         // Get pixel under cursor
-        const canvas = this.canvasRef.current;
         const ew = canvas.width/8;
         const eh = canvas.height/8;
-        const x = Math.floor(e.pageX/ew)
-        const y = Math.floor(e.pageY/eh)
-        if (x < 0 || x > 7 || y < 0 || y > 7) return;
-        this.px = x;
-        this.py = y;
+        return [Math.floor(cx/ew), Math.floor(cy/eh)]
+    }
+
+    mouseDown(e) {
+        if (e.button !== 0) {
+            return
+        }
+
+        this.pressed = true
+
+        const [x,y] = this.getPixelCoords(e)
+        this.px = x
+        this.py = y
 
         var pix = this.state.data.get(x,y)
         if (pix) {
@@ -90,27 +105,21 @@ class CharEditField extends React.Component {
     }
 
     mouseMove(e) {
-        if (this.pressed) {
-            const canvas = this.canvasRef.current;
-            const ew = canvas.width/8;
-            const eh = canvas.height/8;
+        if (!this.pressed) return
 
-            const x = Math.floor(e.pageX/ew)
-            const y = Math.floor(e.pageY/eh)
-            if (x < 0 || x > 7 || y < 0 || y > 7) return;
-            if (this.px === x && this.py === y) return;
-            this.px = x;
-            this.py = y;
+        const [x, y] = this.getPixelCoords(e)
+        if (this.px === x && this.py === y) return;
+        this.px = x;
+        this.py = y;
 
-            this.props.setPixel(x, y, this.pixelVal)
-        }
+        this.props.setPixel(x, y, this.pixelVal)
     }
 
     render() {
         return <canvas
             ref={this.canvasRef}
-            width={8*40 + "px"}
-            height={8*40 + "px"}
+            width={8*this.props.zoom + "px"}
+            height={8*this.props.zoom + "px"}
             style={{border: "1px solid " + this.props.bordercol}}
             onMouseDown={this.mouseDown}
             onMouseUp={this.mouseUp}

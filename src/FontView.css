@@ -1,0 +1,13 @@
+table.FontView {
+    border: 1px solid darkmagenta;
+    border-collapse: collapse;
+}
+
+table.FontView td {
+    border: 1px solid gray;
+    padding: 0px;
+}
+
+table.FontView td canvas {
+    display: block; /* This is required to get rid of the 2px spacing at the bottom of td */
+}

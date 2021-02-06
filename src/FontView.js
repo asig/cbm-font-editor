@@ -54,7 +54,7 @@ class FontView extends React.Component {
 
     render() {
         const rows = [...Array(8).keys()].map(i => this.renderRow(i))
-        return <table>
+        return <table className="FontView">
             <tbody>
             {rows}
             </tbody>

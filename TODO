@@ -4,8 +4,14 @@
     [ ] binary
     [ ] cbmasm format
 [X] implement undo/redo
+[ ] More commands
+    [ ] flip x
+    [ ] flip y
+    [ ] rotate 90deg clockwise
+    [ ] rotate 90deg counter-clockwise
 [ ] add Multicolor support
-
+[ ] add copy/paste
+[ ] add keyboard shortcuts
 
 
 Logo: https://upload.wikimedia.org/wikipedia/de/e/e3/Commodore_64_logo.svg
