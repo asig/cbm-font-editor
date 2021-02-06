@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="333.11249"
+   height="41.963001"
+   viewBox="0 0 333.11247 41.963001"
+   id="Ebene_1"
+   xml:space="preserve"
+   sodipodi:docname="cbm-font-editor-logo.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"><metadata
+   id="metadata14"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="2278"
+   inkscape:window-height="1199"
+   id="namedview12"
+   showgrid="false"
+   inkscape:zoom="2"
+   inkscape:cx="28.162628"
+   inkscape:cy="134.10409"
+   inkscape:window-x="77"
+   inkscape:window-y="189"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Ebene_1"
+   inkscape:document-rotation="0"
+   fit-margin-top="0"
+   fit-margin-left="0"
+   fit-margin-right="0"
+   fit-margin-bottom="0" /><defs
+   id="defs21">
+	
+	
+	
+	
+	
+	
+	
+</defs>
+<rect
+   style="fill:#6f685f;fill-opacity:1;stroke:none;stroke-width:6.99971;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="rect2292-3"
+   width="326.11279"
+   height="34.963291"
+   x="3.499855"
+   y="3.499855"
+   ry="17.481646" /><polygon
+   points="434.238,411.131 319.269,411.131 319.269,408.062 434.238,408.062 "
+   id="polygon7"
+   style="fill:#e2001a;fill-rule:evenodd"
+   transform="matrix(0.2861673,0,0,1,201.90464,-400.89)" /><text
+   xml:space="preserve"
+   style="font-size:26.6667px;line-height:1.25;font-family:'Microgramma D Extended';-inkscape-font-specification:'Microgramma D Extended';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1"
+   x="44.396519"
+   y="26.870527"
+   id="text841"><tspan
+     sodipodi:role="line"
+     id="tspan839"
+     x="44.396519"
+     y="26.870527"
+     style="font-size:26.6667px;fill:#ffffff;fill-opacity:1">cbm font editor </tspan></text><polygon
+   points="434.238,417.269 319.269,417.269 319.269,414.2 434.238,414.2 "
+   id="polygon9"
+   style="fill:#e95e38;fill-rule:evenodd"
+   transform="matrix(0.2861673,0,0,1,201.90464,-400.89)" /><polygon
+   points="434.238,423.406 319.269,423.406 319.269,420.337 434.238,420.337 "
+   id="polygon11"
+   style="fill:#ffcc00;fill-rule:evenodd"
+   transform="matrix(0.2861673,0,0,1,201.90464,-400.89)" /><polygon
+   points="434.238,429.544 319.269,429.544 319.269,426.475 434.238,426.475 "
+   id="polygon13"
+   style="fill:#57ab27;fill-rule:evenodd"
+   transform="matrix(0.2861673,0,0,1,201.90464,-400.89)" /><polygon
+   points="434.238,432.613 434.238,435.682 319.269,435.682 319.269,432.613 "
+   id="polygon15"
+   style="fill:#009ee0;fill-rule:evenodd"
+   transform="matrix(0.2861641,0,0,1,201.90566,-400.89)" /><rect
+   style="fill:none;fill-opacity:1;stroke:#6f685f;stroke-width:6.99971;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+   id="rect2292"
+   width="326.11279"
+   height="34.963291"
+   x="3.499855"
+   y="3.499855"
+   ry="17.481646" /><path
+   d="m 34.968991,21.616 h -6.651 v 5.455 h 11.955 z m 5.303,-6.574 h -11.955 v 5.454 h 6.576 z m -12.328,-0.374 V 7.645 c -1.419,-0.374 -2.392,-0.524 -3.81,-0.524 -7.398,0 -13.898,6.203 -13.898,13.898 0,7.921 6.574,13.824 13.972,13.824 1.345,0 2.092,-0.15 3.736,-0.6 v -7.172 c -1.645,0.821 -2.465,1.045 -3.81,1.045 -4.11,0 -7.25,-3.436 -7.25,-7.247 0,-3.959 3.064,-7.323 7.174,-7.323 1.421,0 2.616,0.375 3.886,1.122 z"
+   id="path17"
+   style="fill:#ffffff"
+   sodipodi:nodetypes="ccccccccccccsssccsssc" />
+</svg>

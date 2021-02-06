@@ -1,0 +1,3 @@
+Logo is based on https://upload.wikimedia.org/wikipedia/de/e/e3/Commodore_64_logo.svg
+
+To update the site's logo, transform the text cbm-font-editor-logo.svg to a path and store it as src/logo.svg
