@@ -1,3 +1,22 @@
+@font-face {
+  font-family: 'Microgramma-D-Medium';
+  src: url('fonts/MicrogrammaD-MediExte.woff2') format('woff2'),
+  url('fonts/MicrogrammaD-MediExte.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Microgramma-D-Bold';
+  src: url('fonts/MicrogrammaD-BoldExte.woff2') format('woff2'),
+  url('fonts/MicrogrammaD-BoldExte.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 body {
   background-color: #c2b396;
   padding: 40px;
