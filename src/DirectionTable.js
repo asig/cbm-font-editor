@@ -16,8 +16,7 @@ function DirectionTable(props) {
         <tr>
             <td align={"center"} colSpan={2}>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onUp}>
                     <FontAwesomeIcon icon={faCaretUp}/>
                 </Button>
@@ -26,16 +25,14 @@ function DirectionTable(props) {
         <tr>
             <td>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onLeft}>
                     <FontAwesomeIcon icon={faCaretLeft}/>
                 </Button>
             </td>
             <td>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onRight}>
                     <FontAwesomeIcon icon={faCaretRight}/>
                 </Button>
@@ -44,8 +41,7 @@ function DirectionTable(props) {
         <tr>
             <td align={"center"} colSpan={2}>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onDown}>
                     <FontAwesomeIcon icon={faCaretDown}/>
                 </Button>

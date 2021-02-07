@@ -3,11 +3,13 @@ import './CharView.css';
 import React from 'react';
 import Char from './model/Char'
 
+import globals from "./globals";
+
 class CharView extends React.Component {
 
     static defaultProps = {
-        fgcol: "black",
-        fillcol: "black",
+        fgcol: globals.colors.fg,
+        fillcol: globals.colors.fg,
         bgcol: "white",
         fillcolSelected: "#880000",
         bgcolSelected: "#FFCCCC",

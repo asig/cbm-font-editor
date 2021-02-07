@@ -23,16 +23,14 @@ function RotationTable(props) {
         <tr>
             <td align={"center"}>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onFlipVertically}>
                     <SwapVertIcon/>
                 </Button>
             </td>
             <td align={"center"} colSpan={2}>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onFlipHorizontally}>
                     <SwapHorizIcon/>
                 </Button>
@@ -41,16 +39,14 @@ function RotationTable(props) {
         <tr>
             <td>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onRotateCcw}>
                     <RotateLeftIcon/>
                 </Button>
             </td>
             <td>
                 <Button
-                    variant="outlined"
-                    color="primary"
+                    variant="contained"
                     onClick={props.onRotateCw}>
                     <RotateRightIcon/>
                 </Button>
