@@ -5,10 +5,12 @@
     [ ] cbmasm format
 [X] implement undo/redo
 [ ] More commands
-    [ ] flip x
-    [ ] flip y
-    [ ] rotate 90deg clockwise
-    [ ] rotate 90deg counter-clockwise
+    [X] flip x
+    [X] flip y
+    [X] rotate 90deg clockwise
+    [X] rotate 90deg counter-clockwise
+    [ ] Clear
+    [ ] Fill
 [ ] add Multicolor support
 [ ] add copy/paste
 [ ] add keyboard shortcuts

@@ -17,6 +17,10 @@ class Char {
         this.shiftDown = this.shiftDown.bind(this)
         this.invert = this.invert.bind(this)
         this.isEqual = this.isEqual.bind(this)
+        this.flipVertically = this.flipVertically.bind(this)
+        this.flipHorizontally = this.flipHorizontally.bind(this)
+        this.rotateCcw = this.rotateCcw.bind(this)
+        this.rotateCcw = this.rotateCcw.bind(this)
     }
 
     isEqual(other) {
@@ -47,6 +51,57 @@ class Char {
             }
         }
         return new Char(res);
+    }
+
+    flipHorizontally() {
+        const b = Array(8)
+        for (var i = 0; i < 8 ; i++) {
+            var oldb = this.data[i]
+            var newb = 0
+            for (var j = 0; j < 8; j++) {
+                newb = newb << 1
+                if (oldb & 1) {
+                    newb = newb + 1
+                }
+                oldb = oldb >>> 1
+            }
+            b[i] = newb
+        }
+        return new Char(b);
+    }
+
+    flipVertically() {
+        const b = Array(8)
+        for (var i = 0; i < 8 ; i++) {
+            b[i] = this.data[7-i]
+        }
+        return new Char(b);
+    }
+
+    rotateCcw() {
+        const b = Array(8).fill(0)
+        for (var i = 0; i < 8 ; i++) {
+            for (var j = 0; j < 8; j++) {
+                var p = this.data[i] & (1<<j)
+                if (p) {
+                    b[j] |= (1<<(7-i))
+                }
+            }
+        }
+        return new Char(b);
+    }
+
+    rotateCw() {
+        const b = Array(8).fill(0)
+        for (var i = 0; i < 8 ; i++) {
+            for (var j = 0; j < 8; j++) {
+                var p = this.data[i] & (1<<j)
+                if (p) {
+                    b[7-j] |= (1<<i)
+                }
+            }
+        }
+        return new Char(b);
     }
 
     rollLeft() {

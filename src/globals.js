@@ -2,6 +2,7 @@
 
 var globals = {
     colors: {
+        white: "#ffffff",
         bg: "#c2b396",
         fg: "#312c29",
         grey: "#636363",

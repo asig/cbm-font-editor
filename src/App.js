@@ -11,6 +11,8 @@ import {faUpload} from "@fortawesome/free-solid-svg-icons"
 
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+
 import Logo from "./logo.svg"
 
 import Char from "./model/Char";
@@ -35,11 +37,27 @@ const theme = createMuiTheme({
                 backgroundColor: globals.colors.bg,
             }
         },
+        MuiCardHeader: {
+            root: {
+                backgroundColor: globals.colors.brown,
+                color: globals.colors.white
+            },
+            title: {
+                fontFamily: "Microgramma-D-Medium",
+            }
+        },
+        MuiCardContent: {
+            root: {
+                display:'flex',
+                justifyContent:'center'
+            }
+        },
         MuiPaper: {
             root: {
-                border: "1px solid " + globals.colors.fg,
-                backgroundColor: globals.colors.bg,
+                border: "1px solid " + globals.colors.brown,
+                backgroundColor: globals.colors.white,
                 textAlign: 'center',
+                height:"100%",
             }
         }
     }
@@ -147,6 +165,10 @@ class App extends React.Component {
     }
 
     loadFont(f) {
+        if (f == null) {
+            return
+        }
+
         const reader = new FileReader()
         reader.onload = (e) => {
             const len = e.target.result.byteLength;
@@ -164,7 +186,7 @@ class App extends React.Component {
             const cef = this.charEditFieldRef.current
 
             // Set new font
-            const chars = [...Array(256).keys()].map( (i) => new Char(data.slice(i*8, i*8+8)) )
+            const chars = [...Array(256).keys()].map((i) => new Char(data.slice(i * 8, i * 8 + 8)))
             this.font = new Font(chars)
             fv.setFont(this.font)
 
@@ -184,112 +206,117 @@ class App extends React.Component {
         return (
             <ThemeProvider theme={theme}>
                 <Container fixed>
-                <Grid container justify="center" alignItems="flex-start" spacing={3}>
-                    <Grid item xs={12}>
-                        <img src={Logo} width={"100%"} alt={"CBM Font Editor"}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Card elevation={5}>
-                            <CardHeader title={"Character"}/>
-                            <CharEditField
-                                ref={this.charEditFieldRef}
-                                fgcol="black"
-                                bgcol="white"
-                                bordercol="darkgray"
-                                setPixel={(x, y, val) => this.updateChar((c) => c.set(x, y, val))}
-                            />
-
-                        </Card>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <Card elevation={5}>
-                            <CardHeader title={"Commands"}/>
-                            <Box display="flex" flexDirection="row">
-                                <Box m={1}>
-                                    <DirectionTable
-                                        title="Roll"
-                                        onUp={() => this.updateChar((c) => c.rollUp())}
-                                        onDown={() => this.updateChar((c) => c.rollDown())}
-                                        onLeft={() => this.updateChar((c) => c.rollLeft())}
-                                        onRight={() => this.updateChar((c) => c.rollRight())}
+                    <Grid container justify="center" alignItems="stretch" spacing={3}>
+                        <Grid item xs={12}>
+                            <img src={Logo} width={"100%"} alt={"CBM Font Editor"}/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Card elevation={5} >
+                                <CardHeader title={"Character"}/>
+                                <CardContent>
+                                    <CharEditField
+                                        ref={this.charEditFieldRef}
+                                        fgcol="black"
+                                        bgcol="white"
+                                        bordercol="darkgray"
+                                        setPixel={(x, y, val) => this.updateChar((c) => c.set(x, y, val))}
                                     />
-                                </Box>
-                                <Box m={1}>
-                                    <DirectionTable
-                                        title="Shift"
-                                        onUp={() => this.updateChar((c) => c.shiftUp())}
-                                        onDown={() => this.updateChar((c) => c.shiftDown())}
-                                        onLeft={() => this.updateChar((c) => c.shiftLeft())}
-                                        onRight={() => this.updateChar((c) => c.shiftRight())}
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={9}>
+                            <Card elevation={5}>
+                                <CardHeader title={"Commands"}/>
+                                <CardContent>
+                                    <Box display="flex" flexDirection="row">
+                                        <Box m={1}>
+                                            <DirectionTable
+                                                title="Roll"
+                                                onUp={() => this.updateChar((c) => c.rollUp())}
+                                                onDown={() => this.updateChar((c) => c.rollDown())}
+                                                onLeft={() => this.updateChar((c) => c.rollLeft())}
+                                                onRight={() => this.updateChar((c) => c.rollRight())}
+                                            />
+                                        </Box>
+                                        <Box m={1}>
+                                            <DirectionTable
+                                                title="Shift"
+                                                onUp={() => this.updateChar((c) => c.shiftUp())}
+                                                onDown={() => this.updateChar((c) => c.shiftDown())}
+                                                onLeft={() => this.updateChar((c) => c.shiftLeft())}
+                                                onRight={() => this.updateChar((c) => c.shiftRight())}
+                                            />
+                                        </Box>
+                                        <Box m={1}>
+                                            <RotationTable
+                                                title="Flip/Rotate"
+                                                onFlipHorizontally={() => this.updateChar((c) => c.flipHorizontally())}
+                                                onFlipVertically={() => this.updateChar((c) => c.flipVertically())}
+                                                onRotateCcw={() => this.updateChar((c) => c.rotateCcw())}
+                                                onRotateCw={() => this.updateChar((c) => c.rotateCw())}
+                                            />
+                                        </Box>
+                                        <Box m={1}>
+                                            <Button
+                                                variant="outlined"
+                                                onClick={() => this.updateChar((c) => c.invert())}>
+                                                Invert
+                                            </Button>
+                                        </Box>
+                                        <Box m={1}>
+                                            {/* See https://stackoverflow.com/questions/8350927/file-upload-button-without-input-field for details */}
+                                            <input
+                                                ref={this.fileInputRef}
+                                                type="file"
+                                                style={{display: "none"}}
+                                                onChange={(e) => this.loadFont(e.target.files.item(0))}
+                                            />
+                                            <Button
+                                                variant="outlined"
+                                                onClick={() => this.fileInputRef.current.click()}>
+                                                Load
+                                            </Button>
+                                        </Box>
+                                        <Box m={1}>
+                                            <DisableableButton
+                                                enabled={this.canUndo()}
+                                                variant="outlined"
+                                                ref={this.undoBtnRef}
+                                                onClick={this.undo}>
+                                                Undo
+                                            </DisableableButton>
+                                        </Box>
+                                        <Box m={1}>
+                                            <DisableableButton
+                                                enabled={this.canRedo()}
+                                                variant="outlined"
+                                                ref={this.redoBtnRef}
+                                                onClick={this.redo}>
+                                                Redo
+                                            </DisableableButton>
+                                        </Box>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Card elevation={5}>
+                                <CardHeader title={"Full Font"}/>
+                                <CardContent>
+                                    <FontView ref={this.fontViewRef}
+                                              zoom={4}
+                                              fgcol="black"
+                                              bgcol="white"
+                                              onSelectChar={this.selectChar}
                                     />
-                                </Box>
-                                {/*<Box m={1}>*/}
-                                {/*    <RotationTable*/}
-                                {/*        title="Flip/Rotate"*/}
-                                {/*        onFlipHorizontalyl={() => this.updateChar((c) => c.dlipHorizontally())}*/}
-                                {/*        onFlipVertically={() => this.updateChar((c) => c.flipVertically())}*/}
-                                {/*        onRotateCcw={() => this.updateChar((c) => c.rotateCcw())}*/}
-                                {/*        onRotateCw={() => this.updateChar((c) => c.rotateCw())}*/}
-                                {/*    />*/}
-                                {/*</Box>*/}
-                                <Box m={1}>
-                                    <Button
-                                        variant="outlined"
-                                        onClick={() => this.updateChar((c) => c.invert())}>
-                                        Invert
-                                    </Button>
-                                </Box>
-                                <Box m={1}>
-                                    {/* See https://stackoverflow.com/questions/8350927/file-upload-button-without-input-field for details */}
-                                    <input
-                                        ref={this.fileInputRef}
-                                        type="file"
-                                        style={{display: "none"}}
-                                        onChange={(e) => this.loadFont(e.target.files.item(0))}
-                                    />
-                                    <Button
-                                        variant="outlined"
-                                        onClick={() => this.fileInputRef.current.click()}>
-                                        Load
-                                    </Button>
-                                </Box>
-                                <Box m={1}>
-                                    <DisableableButton
-                                        enabled={this.canUndo()}
-                                        variant="outlined"
-                                        ref={this.undoBtnRef}
-                                        onClick={this.undo}>
-                                        Undo
-                                    </DisableableButton>
-                                </Box>
-                                <Box m={1}>
-                                    <DisableableButton
-                                        enabled={this.canRedo()}
-                                        variant="outlined"
-                                        ref={this.redoBtnRef}
-                                        onClick={this.redo}>
-                                        Redo
-                                    </DisableableButton>
-                                </Box>
-                            </Box>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12}>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Card elevation={5}>
-                            <CardHeader title={"Full Font"}/>
-                            <FontView ref={this.fontViewRef}
-                                      zoom={4}
-                                      fgcol="black"
-                                      bgcol="white"
-                                      onSelectChar={this.selectChar}
-                            />
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12}>
-                    </Grid>
-                </Grid>
-                <ErrorMsg ref={this.errorMsgRef}/>
-            </Container>
+                    <ErrorMsg ref={this.errorMsgRef}/>
+                </Container>
             </ThemeProvider>
         );
     }
