@@ -71,7 +71,7 @@ const theme = createMuiTheme({
                 backgroundColor: globals.colors.bg,
 //                backgroundColor: globals.colors.white,
                 textAlign: 'center',
-                height: "100%",
+                // height: "100%",
             }
         }
     }

@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
 
 class SaveDialog extends React.Component {
 
@@ -27,7 +29,8 @@ class SaveDialog extends React.Component {
         };
 
         return <Dialog open={this.state.open} onClose={handleClose}>
-            FOOOBAR
+            <DialogTitle>FOOBAR</DialogTitle>
+            <DialogContent>CONTENT</DialogContent>
         </Dialog>
     }
 }
