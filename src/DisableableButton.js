@@ -6,7 +6,7 @@ class DisableableButton extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { enabled: this.props.enabled}
+        this.state = { enabled: props.enabled !== undefined ? props.enabled : true}
 
         this.render = this.render.bind(this)
         this.setEnabled = this.setEnabled.bind(this)
@@ -18,6 +18,9 @@ class DisableableButton extends React.Component {
 
     render() {
         return <Button
+            style={this.props.style}
+            size={this.props.size}
+            startIcon={this.props.startIcon}
             variant={this.props.variant}
             disabled={!this.state.enabled}
             onClick={this.props.onClick}>
