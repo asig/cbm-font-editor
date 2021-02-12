@@ -13,8 +13,6 @@ class CharEditField extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log(props)
-
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
