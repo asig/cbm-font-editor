@@ -1,55 +1,64 @@
 import React from "react";
 
-import Button from "@material-ui/core/Button";
-
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCaretDown, faCaretLeft, faCaretRight, faCaretUp} from "@fortawesome/free-solid-svg-icons";
-
+import DisableableButton from "./DisableableButton";
 
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import RotateRightIcon from '@material-ui/icons/RotateRight';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 
-
 function RotationTable(props) {
-    return <table style={{border: "1px solid green"}}>
-        <thead>
-        <tr>
-            <td align={"center"} colSpan={2}>Rotate/Flip</td>
-        </tr>
-        </thead>
+    const renderTitle = () => {
+        if (props.title !== undefined && props.title.length > 0) {
+            return <thead>
+            <tr>
+                <td align={"center"} colSpan={2}>{props.title}</td>
+            </tr>
+            </thead>
+        }
+        return ""
+    }
+
+    const debugStyle = {
+        // border: "1px solid red"
+    }
+
+    return <table style={{...debugStyle, ...props.style}}  >
         <tbody>
         <tr>
             <td align={"center"}>
-                <Button
+                <DisableableButton
+                    size="small"
                     variant="contained"
                     onClick={props.onFlipVertically}>
                     <SwapVertIcon/>
-                </Button>
+                </DisableableButton>
             </td>
             <td align={"center"} colSpan={2}>
-                <Button
+                <DisableableButton
+                    size="small"
                     variant="contained"
                     onClick={props.onFlipHorizontally}>
                     <SwapHorizIcon/>
-                </Button>
+                </DisableableButton>
             </td>
         </tr>
         <tr>
             <td>
-                <Button
+                <DisableableButton
+                    size="small"
                     variant="contained"
                     onClick={props.onRotateCcw}>
                     <RotateLeftIcon/>
-                </Button>
+                </DisableableButton>
             </td>
             <td>
-                <Button
+                <DisableableButton
+                    size="small"
                     variant="contained"
                     onClick={props.onRotateCw}>
                     <RotateRightIcon/>
-                </Button>
+                </DisableableButton>
             </td>
         </tr>
         </tbody>
