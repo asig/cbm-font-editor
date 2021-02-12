@@ -6,6 +6,7 @@ class Char {
         }
         this.data = data;
         this.get = this.get.bind(this)
+        this.getData = this.getData.bind(this)
         this.set = this.set.bind(this)
         this.rollLeft = this.rollLeft.bind(this)
         this.rollRight = this.rollRight.bind(this)
@@ -16,11 +17,13 @@ class Char {
         this.shiftUp = this.shiftUp.bind(this)
         this.shiftDown = this.shiftDown.bind(this)
         this.invert = this.invert.bind(this)
+        this.clear = this.clear.bind(this)
+        this.fill = this.fill.bind(this)
         this.isEqual = this.isEqual.bind(this)
         this.flipVertically = this.flipVertically.bind(this)
         this.flipHorizontally = this.flipHorizontally.bind(this)
         this.rotateCcw = this.rotateCcw.bind(this)
-        this.rotateCcw = this.rotateCcw.bind(this)
+        this.rotateCw = this.rotateCw.bind(this)
     }
 
     isEqual(other) {
@@ -33,6 +36,10 @@ class Char {
             }
         }
         return true
+    }
+
+    getData() {
+        return this.data.map(x => x)
     }
 
     get(x, y) {
@@ -148,6 +155,14 @@ class Char {
     invert() {
         const b = this.data
         return new Char(b.map(v => (~v) & 0xff));
+    }
+
+    clear() {
+        return new Char(Array(8).fill(0));
+    }
+
+    fill() {
+        return new Char(Array(8).fill(0xff));
     }
 }
 
