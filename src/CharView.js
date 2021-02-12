@@ -1,5 +1,3 @@
-import './CharView.css';
-
 import React from 'react';
 import Char from './model/Char'
 
@@ -13,13 +11,15 @@ class CharView extends React.Component {
         bgcol: "white",
         fillcolSelected: "#880000",
         bgcolSelected: "#FFCCCC",
+        zoom: 2,
+        char: null
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            char: new Char(null)
+            char: props.char == null ? new Char(null) : props.char
         };
 
         this.render = this.render.bind(this)
@@ -59,6 +59,9 @@ class CharView extends React.Component {
     }
 
     setChar(c) {
+        if (c === null) {
+            c = new Char(null)
+        }
         this.setState({char: c})
     }
 
