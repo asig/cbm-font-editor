@@ -25,7 +25,7 @@ class ErrorMsg extends React.Component {
             if (reason === 'clickaway') {
                 return;
             }
-            this.setState({msg:""});
+            this.setState({msg: ""});
         };
 
         const open = this.state.msg !== ""
