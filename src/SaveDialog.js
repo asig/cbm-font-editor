@@ -175,6 +175,13 @@ class SaveDialog extends React.Component {
             case "basic":
                 newState.basicLineError = this.validateNumber(newState.basicLine)
                 newState.basicStepError = this.validateNumber(newState.basicStep)
+                if (newState.basicLineError === "" && newState.basicStepError === "") {
+                    // Check that *all* lines will be in range
+                    const lastLine = this.aton(newState.basicLine) + 255 * this.aton(newState.basicStep)
+                    if (lastLine >= 65535) {
+                        newState.basicStepError = "Step size is too large."
+                    }
+                }
                 break;
         }
         return newState
@@ -365,7 +372,7 @@ class SaveDialog extends React.Component {
                                        onChange={(evt) => this.updateAndValidate({basicLine: evt.target.value})}/>
                         <FormHelperText id="basicLine">{this.state.basicLineError}</FormHelperText>
                     </FormControl>
-                    <FormControl variant="outlined" error={this.state.basicLineError !== ""}
+                    <FormControl variant="outlined" error={this.state.basicStepError !== ""}
                                  disabled={this.state.format !== "basic"} margin="dense">
                         <InputLabel htmlFor="basicStep">Step</InputLabel>
                         <OutlinedInput label="Step" id="basicStep" value={this.state.basicStep}
