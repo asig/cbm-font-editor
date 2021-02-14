@@ -41,7 +41,7 @@ class SaveDialog extends React.Component {
         open: false,
         filename: "font.bin",
         format: "binaryPlain",
-        binAddress: "$c000",
+        binAddress: "$3000",
         binAddressError: "",
         basicPlatform: "c128",
         basicLine: "10000",
