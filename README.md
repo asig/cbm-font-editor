@@ -5,7 +5,7 @@ range of Commodore home computers, and to store your creations as binary files
 (in plain and 'prg' format), as BASIC programs, or as source code for the
 cbmasm cross-assembler.
 
-To get you started, you need a 2k Commodore font in binary format, which you
+To get started, you need a 2k Commodore font in binary format, which you
 can get for example at [zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/firmware/characters/).
 
 This is an early version with basic functionality. Most notably, multi-color

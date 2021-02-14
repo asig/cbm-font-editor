@@ -86,7 +86,7 @@ class WelcomeDialog extends React.Component {
                         as source code for the <code>cbmasm</code> cross-assembler.
                     </p>
                     <p>
-                        To get you started, you need a 2k Commodore font in binary format, which you can get for example
+                        To get started, you need a 2k Commodore font in binary format, which you can get for example
                         from <a href="http://www.zimmers.net/anonftp/pub/cbm/firmware/characters/" target="_blank">zimmers.net</a>.
                     </p>
                     <p>
