@@ -1,9 +1,9 @@
 # CBM Font Editor
 
-CBM Font Editor is a little tool that allows you modify fonts for a wide range
-of Commodore home computers, and to store your creations as binary files (in 
-plain and 'prg' format), as BASIC programs or as source code for the cbmasm
-cross-assembler.
+CBM Font Editor is a little tool that allows you to modify fonts for a wide 
+range of Commodore home computers, and to store your creations as binary files
+(in plain and 'prg' format), as BASIC programs, or as source code for the
+cbmasm cross-assembler.
 
 To get you started, you need a 2k Commodore font in binary format, which you
 can get for example at [zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/firmware/characters/).
@@ -14,6 +14,7 @@ fonts are not supported yet.
 And last but not least, this app completely runs in your browser. All your
 data is kept on your own machine, nothing is sent over the internets!
 
+The latest version of this app is always deployed to [cbmfonteditor.com](https://cbmfonteditor.com/)
 ## Build and run the app
 
 ### Prerequisites
@@ -27,7 +28,8 @@ Install the dependencies with `npm install`
 Build the app with `npm run build`
 
 ### Run the app locally
-To start the app, just execute `npm start`, and point your browser to [http://locahost:3000/](http://localhost:3000/) 
+To start the app, just execute `npm start`, and point your browser to
+[http://localhost:3000/](http://localhost:3000/) 
 
 ## License
 Copyright (c) 2021 Andreas Signer.  
