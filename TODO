@@ -1,19 +1,20 @@
 [X] implement char selection
 [X] In FontView don't always update *all* the chars, but just the one that changed.
-[ ] Implement save
-    [ ] binary
-    [ ] cbmasm format
+[X] Implement save
+    [X] binary
+    [X] cbmasm format
 [X] implement undo/redo
-[ ] More commands
+[X] More commands
     [X] flip x
     [X] flip y
     [X] rotate 90deg clockwise
     [X] rotate 90deg counter-clockwise
-    [ ] Clear
-    [ ] Fill
+    [X] Clear
+    [X] Fill
 [ ] add Multicolor support
-[ ] add copy/paste
+[X] add copy/paste
 [ ] add keyboard shortcuts
-
+[X] Nicer command table layout
+[ ] Undo/Redo: Only store state if it's different from the previous one
 
 Logo: https://upload.wikimedia.org/wikipedia/de/e/e3/Commodore_64_logo.svg
