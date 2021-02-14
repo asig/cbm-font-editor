@@ -29,8 +29,6 @@ Build the app with `npm run build`
 ### Run the app locally
 To start the app, just execute `npm start`, and point your browser to [http://locahost:3000/](http://localhost:3000/) 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ## License
 Copyright (c) 2021 Andreas Signer.  
 Licensed under [GPLv3](https://www.gnu.org/licenses/gpl-3.0).
