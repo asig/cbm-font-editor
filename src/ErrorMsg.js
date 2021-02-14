@@ -29,7 +29,7 @@ class ErrorMsg extends React.Component {
         };
 
         const open = this.state.msg !== ""
-        return <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        return <Snackbar open={open} autoHideDuration={15000} onClose={handleClose}>
             <MuiAlert onClose={handleClose} elevation={6} variant="filled" severity="error">
                 {this.state.msg}
             </MuiAlert>
