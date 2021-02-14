@@ -5,18 +5,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import InputLabel from '@material-ui/core/InputLabel';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import Select from '@material-ui/core/Select';
 import globals from "./globals";
 
 class WelcomeDialog extends React.Component {
@@ -74,7 +66,7 @@ class WelcomeDialog extends React.Component {
                     <p>
                         With this little tool, you can modify fonts for a wide range of Commodore home computers, and
                         download your creations as binary files (in plain and 'prg' format), as BASIC programs or
-                        as source code for the cbmasm cross-assembler.
+                        as source code for the <code>cbmasm</code> cross-assembler.
                     </p>
                     <p>
                         To get you started, you need a 2k Commodore font in binary format, which you can get for example
