@@ -186,7 +186,6 @@ class SaveDialog extends React.Component {
             const c = this.font.getChar(i)
             data = data.concat(...c.getData())
         }
-        console.log(data)
         return data
     }
 

@@ -59,7 +59,6 @@ class Content extends React.Component {
         this.addToHistory = this.addToHistory.bind(this)
         this.resetHistory = this.resetHistory.bind(this)
         this.applyHistoryState = this.applyHistoryState.bind(this)
-        this.handleKey = this.handleKey.bind(this)
 
         this.charEditFieldRef = React.createRef();
         this.fontViewRef = React.createRef();
@@ -73,10 +72,6 @@ class Content extends React.Component {
 
         this.history = [{selected: 0, ch: new Char(null)}];
         this.historyCurPos = 0;
-    }
-
-    handleKey(evt) {
-        console.log("************************************** ", evt)
     }
 
     applyHistoryState(s) {
@@ -204,8 +199,7 @@ class Content extends React.Component {
 
     render() {
         return (
-            <Grid container justify="center" alignItems="stretch" spacing={3} style={{flexGrow: 1}}
-                  onKeyDown={this.handleKey}>
+            <Grid container justify="center" alignItems="stretch" spacing={3} style={{flexGrow: 1}}>
                 <Grid item xs={3} style={{height: "100%"}}>
                     <Card elevation={0}>
                         <CardHeader title={"Character"}/>

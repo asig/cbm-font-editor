@@ -59,7 +59,6 @@ class WelcomeDialog extends React.Component {
     }
 
     handleClose(evt, reason) {
-        console.log(evt, reason)
         if (reason === 'clickaway') {
             return;
         }
