@@ -19,16 +19,14 @@
 import React from 'react';
 import Char from './model/Char'
 
-import globals from "./globals";
+import palette from "./palette";
 
 class CharView extends React.Component {
 
     static defaultProps = {
-        fgcol: globals.colors.fg,
-        fillcol: globals.colors.fg,
-        bgcol: "white",
-        fillcolSelected: "#880000",
-        bgcolSelected: "#FFCCCC",
+        multicol: false,
+        cols: [ palette[1], palette[6], palette[14], palette[0]],
+        colsSelected: [ "#FFCCCC", palette[6], palette[14], "#880000"],
         zoom: 2,
         char: null
     }
@@ -41,6 +39,7 @@ class CharView extends React.Component {
         };
 
         this.render = this.render.bind(this)
+        this._draw = this._draw.bind(this)
         this.drawCanvas = this.drawCanvas.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
         this.componentDidUpdate = this.componentDidUpdate.bind(this)
@@ -50,26 +49,29 @@ class CharView extends React.Component {
         this.canvasRef = React.createRef()
     }
 
-    drawCanvas(i) {
+    _draw(w , getPixel) {
         const canvas = this.canvasRef.current;
         const ctx = canvas.getContext('2d');
-        const ew = canvas.width/8;
+        const ew = canvas.width/w;
         const eh = canvas.height/8;
         ctx.save();
         ctx.beginPath();
-        const ch = this.state.char
         for (var y = 0; y < 8; y++) {
-            for (var x = 0; x < 8; x++) {
-                const v = ch.get(x,y)
-                if (v) {
-                    ctx.fillStyle = this.state.selected ? this.props.fillcolSelected : this.props.fillcol
-                } else {
-                    ctx.fillStyle = this.state.selected ? this.props.bgcolSelected : this.props.bgcol
-                }
+            for (var x = 0; x < w; x++) {
+                const v = getPixel(x,y)
+                ctx.fillStyle = this.state.selected ? this.props.colsSelected[v] : this.props.cols[v]
                 ctx.fillRect(x*ew, y*eh, ew, eh);
             }
         }
         ctx.restore();
+    }
+
+    drawCanvas() {
+        if (this.props.multicol) {
+            this._draw(4, this.state.char.getMC)
+        } else {
+            this._draw(8, (x,y) => this.state.char.get(x,y)*3)
+        }
     }
 
     setSelected(s) {

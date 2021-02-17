@@ -16,30 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with cbm-font-editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import React from "react"
+import Grid from "@material-ui/core/Grid"
+import Box from "@material-ui/core/Box"
 
-import UndoIcon from '@material-ui/icons/Undo';
-import RedoIcon from '@material-ui/icons/Redo';
+import UndoIcon from '@material-ui/icons/Undo'
+import RedoIcon from '@material-ui/icons/Redo'
 
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
+import Card from "@material-ui/core/Card"
+import CardHeader from "@material-ui/core/CardHeader"
+import CardContent from "@material-ui/core/CardContent"
+
+import ToggleButton from "@material-ui/core/CardHeader"
 
 import Char from "./model/Char"
 import Font from "./model/Font"
 
-import Clipboard from "./Clipboard";
-import DisableableButton from "./DisableableButton";
-import CharEditField from "./CharEditField";
-import DirectionTable from "./DirectionTable";
-import FontView from "./FontView";
+import Clipboard from "./Clipboard"
+import PalettePicker from "./PalettePicker"
+import DisableableButton from "./DisableableButton"
+import CharEditField from "./CharEditField"
+import DirectionTable from "./DirectionTable"
+import FontView from "./FontView"
 
 import globals from "./globals"
+import palette from "./palette"
 
 import './App.css';
 import RotationTable from "./RotationTable";
+import ColorSelector from "./ColorSelector";
 
 class Content extends React.Component {
     constructor(props) {
@@ -47,7 +52,6 @@ class Content extends React.Component {
 
         this.render = this.render.bind(this)
         this.loadFont = this.loadFont.bind(this)
-        this.saveFont = this.saveFont.bind(this)
         this.modifyChar = this.modifyChar.bind(this)
         this.selectChar = this.selectChar.bind(this)
         this.canUndo = this.canUndo.bind(this)
@@ -59,6 +63,8 @@ class Content extends React.Component {
         this.addToHistory = this.addToHistory.bind(this)
         this.resetHistory = this.resetHistory.bind(this)
         this.applyHistoryState = this.applyHistoryState.bind(this)
+        this.selectColor = this.selectColor.bind(this)
+        this.setColor = this.setColor.bind(this)
 
         this.charEditFieldRef = React.createRef();
         this.fontViewRef = React.createRef();
@@ -67,6 +73,13 @@ class Content extends React.Component {
         this.redoBtnRef = React.createRef()
         this.clipboardRef = React.createRef()
 
+        this.state = {
+            selectedColor: 3,
+            color0: palette[1],
+            color1: palette[11],
+            color2: palette[13],
+            color3: palette[0],
+        }
         this.font = new Font(null);
         this.selectedChar = 0;
 
@@ -155,10 +168,6 @@ class Content extends React.Component {
         this.addToHistory({selected: i, ch: c})
     }
 
-    saveFont() {
-        // Show dialog!
-    }
-
     loadFont(f) {
         if (f == null) {
             return
@@ -197,6 +206,18 @@ class Content extends React.Component {
         reader.readAsArrayBuffer(f);
     }
 
+    selectColor(idx) {
+        console.log("Selected color: ", idx)
+        this.setState({selectedColor: idx})
+    }
+
+    setColor(idx, col) {
+        console.log("setting color: ", idx, col)
+        const s = {}
+        s["color"+idx] = col
+        this.setState(s)
+    }
+
     render() {
         return (
             <Grid container justify="center" alignItems="stretch" spacing={3} style={{flexGrow: 1}}>
@@ -207,8 +228,7 @@ class Content extends React.Component {
                             <CharEditField
                                 zoom={25}
                                 ref={this.charEditFieldRef}
-                                fgcol={globals.colors.fg}
-                                bgcol="white"
+                                cols={[this.state.color0,this.state.color1, this.state.color2, this.state.color3]}
                                 bordercol="darkgray"
                                 setPixel={(x, y, val) => this.modifyChar((c) => c.set(x, y, val))}
                             />
@@ -223,8 +243,7 @@ class Content extends React.Component {
                                 <Box>
                                     <FontView ref={this.fontViewRef}
                                               zoom={3}
-                                              fgcol={globals.colors.fg}
-                                              bgcol="white"
+                                              cols={[this.state.color0,this.state.color1, this.state.color2, this.state.color3]}
                                               onSelectChar={this.selectChar}
                                     />
                                 </Box>
@@ -251,6 +270,51 @@ class Content extends React.Component {
                                         onClick={() => this.props.saveDialogRef.current.showDialog(this.font)}>
                                         Save
                                     </DisableableButton>
+                                </Box>
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={2}>
+                    <Card elevation={0}>
+                        <CardHeader title={"Colors"}/>
+                        <CardContent>
+                            <Box display="flex" flexDirection="column">
+                                <Box>
+                                    <ColorSelector
+                                        color={this.state.color0}
+                                        selected={this.state.selectColor === 0}
+                                        onClick={() => this.selectColor(0)}
+                                        onColorSelected={(col) => this.setColor(0, col)}
+                                    >
+                                        BG
+                                    </ColorSelector>
+                                    <ColorSelector
+                                        color={this.state.color3}
+                                        selected={this.state.selectColor === 3}
+                                        onClick={() => this.selectColor(3)}
+                                        onColorSelected={(col) => this.setColor(3, col)}
+                                    >
+                                        FG
+                                    </ColorSelector>
+                                </Box>
+                                <Box>
+                                    <ColorSelector
+                                        color={this.state.color1}
+                                        selected={this.state.selectColor === 1}
+                                        onClick={() => this.selectColor(1)}
+                                        onColorSelected={(col) => this.setColor(1, col)}
+                                    >
+                                        C1
+                                    </ColorSelector>
+                                    <ColorSelector
+                                        color={this.state.color2}
+                                        selected={this.state.selectColor === 2}
+                                        onClick={() => this.selectColor(2)}
+                                        onColorSelected={(col) => this.setColor(2, col)}
+                                    >
+                                        C2
+                                    </ColorSelector>
                                 </Box>
                             </Box>
                         </CardContent>
@@ -307,13 +371,14 @@ class Content extends React.Component {
                             <Clipboard
                                 style={{height: "100%"}}
                                 ref={this.clipboardRef}
+                                cols={[this.state.color0,this.state.color1, this.state.color2, this.state.color3]}
                                 onCopy={this.copy}
                                 onPaste={this.paste}
                             />
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                     <Card elevation={0}>
                         <CardHeader title={"Other"}/>
                         <CardContent>
@@ -342,29 +407,30 @@ class Content extends React.Component {
                                         Fill
                                     </DisableableButton>
                                 </Box>
-                                <Box flex={1}>
-                                    <DisableableButton
-                                        style={{width: "90%"}}
-                                        startIcon={<UndoIcon/>}
-                                        enabled={this.canUndo()}
-                                        variant="contained"
-                                        ref={this.undoBtnRef}
-                                        onClick={this.undo}>
-                                        Undo
-                                    </DisableableButton>
+                                <Box display="flex" flexDirection="column">
+                                    <Box>
+                                        <DisableableButton
+                                            style={{width: "90%", marginBottom:"0.5rem"}}
+                                            startIcon={<UndoIcon/>}
+                                            enabled={this.canUndo()}
+                                            variant="contained"
+                                            ref={this.undoBtnRef}
+                                            onClick={this.undo}>
+                                            Undo
+                                        </DisableableButton>
+                                    </Box>
+                                    <Box>
+                                        <DisableableButton
+                                            style={{width: "90%"}}
+                                            enabled={this.canRedo()}
+                                            variant="contained"
+                                            ref={this.redoBtnRef}
+                                            startIcon={<RedoIcon/>}
+                                            onClick={this.redo}>
+                                            Redo
+                                        </DisableableButton>
+                                    </Box>
                                 </Box>
-                                <Box flex={1}>
-                                    <DisableableButton
-                                        style={{width: "90%"}}
-                                        enabled={this.canRedo()}
-                                        variant="contained"
-                                        ref={this.redoBtnRef}
-                                        startIcon={<RedoIcon/>}
-                                        onClick={this.redo}>
-                                        Redo
-                                    </DisableableButton>
-                                </Box>
-
                             </Box>
                         </CardContent>
                     </Card>

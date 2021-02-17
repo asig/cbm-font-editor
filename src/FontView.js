@@ -61,7 +61,7 @@ class FontView extends React.Component {
     renderCol(i) {
         return <td key={"c"+i}
                    onClick={() => this.props.onSelectChar(i)}>
-            <CharView fgcol={this.props.fgcol} bgcol={this.props.bgcol} zoom={this.props.zoom} ref={this.charRefs[i]}/>
+            <CharView cols={this.props.cols} zoom={this.props.zoom} ref={this.charRefs[i]}/>
         </td>
     }
 

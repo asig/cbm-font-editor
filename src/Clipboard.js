@@ -18,16 +18,14 @@
  */
 import React from 'react';
 
-import globals from "./globals";
 import DisableableButton from "./DisableableButton";
 import CharView from "./CharView";
+import palette from "./palette";
 
 class Clipboard extends React.Component {
 
     static defaultProps = {
-        fgcol: globals.colors.fg,
-        fillcol: globals.colors.fg,
-        bgcol: "white",
+        cols: [ palette[1], palette[6], palette[14], palette[0]],
         title: "Clipboard",
     }
 
@@ -71,7 +69,10 @@ class Clipboard extends React.Component {
                     </DisableableButton>
                 </td>
                 <td align="center">
-                    <CharView ref={this.charViewRef} zoom={4}/>
+                    <CharView
+                        ref={this.charViewRef}
+                        cols={this.props.cols}
+                        zoom={4}/>
                 </td>
             </tr>
             <tr>
