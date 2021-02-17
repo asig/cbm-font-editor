@@ -12,6 +12,13 @@
     [X] Clear
     [X] Fill
 [ ] add Multicolor support
+    [X] Add palette to CharView
+    [X] Add palette to FontView
+    [X] Add palette to CharEditField
+    [X] Add palette to Clipboard
+    [X] Add multi-bit support to Char
+    [X] Add ColorPicker and Palette controls
+    [ ] Add color selection for drawing
 [X] add copy/paste
 [ ] add keyboard shortcuts
 [X] Nicer command table layout
