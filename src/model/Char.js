@@ -24,14 +24,20 @@ class Char {
         }
         this.data = data;
         this.get = this.get.bind(this)
+        this.getMC = this.getMC.bind(this)
         this.getData = this.getData.bind(this)
         this.set = this.set.bind(this)
+        this.setMC = this.setMC.bind(this)
         this.rollLeft = this.rollLeft.bind(this)
+        this.rollLeftMC = this.rollLeftMC.bind(this)
         this.rollRight = this.rollRight.bind(this)
+        this.rollRightMC = this.rollRightMC.bind(this)
         this.rollUp = this.rollUp.bind(this)
         this.rollDown = this.rollDown.bind(this)
         this.shiftLeft = this.shiftLeft.bind(this)
+        this.shiftLeftMC = this.shiftLeftMC.bind(this)
         this.shiftRight = this.shiftRight.bind(this)
+        this.shiftRightMC = this.shiftRightMC.bind(this)
         this.shiftUp = this.shiftUp.bind(this)
         this.shiftDown = this.shiftDown.bind(this)
         this.invert = this.invert.bind(this)
@@ -40,6 +46,7 @@ class Char {
         this.isEqual = this.isEqual.bind(this)
         this.flipVertically = this.flipVertically.bind(this)
         this.flipHorizontally = this.flipHorizontally.bind(this)
+        this.flipHorizontallyMC = this.flipHorizontallyMC.bind(this)
         this.rotateCcw = this.rotateCcw.bind(this)
         this.rotateCw = this.rotateCw.bind(this)
     }
@@ -62,18 +69,31 @@ class Char {
 
     get(x, y) {
         const b = this.data[y]
-        return (b & (1<<(7-x))) > 0
+        return (b & (1<<(7-x))) > 0 ? 1 : 0
+    }
+
+    getMC(x, y) {
+        const b = this.data[y]
+        const v = (b & (3<<(6-2*x))) >>> (3-x)
+        return v
     }
 
     set(x, y, val) {
         const b = this.data
         var res = b.map(v => v)
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-            if (val > 0) {
-                res[y] = res[y] | (1 << (7 - x))
-            } else {
-                res[y] = res[y] & ~(1 << (7 - x))
-            }
+            const clearMask = ~(1 << (7 - x)) & 0xff
+            res[y] = res[y] & clearMask | (val << (7-x))
+        }
+        return new Char(res);
+    }
+
+    setMC(x, y, val) {
+        const b = this.data
+        var res = b.map(v => v)
+        if (x >= 0 && x < 4 && y >= 0 && y < 8) {
+            const clearMask = ~(3 << (6 - 2*x)) & 0xff
+            res[y] = res[y] & clearMask | (val << (3-x))
         }
         return new Char(res);
     }
@@ -84,11 +104,22 @@ class Char {
             var oldb = this.data[i]
             var newb = 0
             for (var j = 0; j < 8; j++) {
-                newb = newb << 1
-                if (oldb & 1) {
-                    newb = newb + 1
-                }
+                newb = newb << 1 | (oldb & 1)
                 oldb = oldb >>> 1
+            }
+            b[i] = newb
+        }
+        return new Char(b);
+    }
+
+    flipHorizontallyMC() {
+        const b = Array(8)
+        for (var i = 0; i < 8 ; i++) {
+            var oldb = this.data[i]
+            var newb = 0
+            for (var j = 0; j < 4; j++) {
+                newb = (newb << 2) | (oldb & 3)
+                oldb = oldb >>> 2
             }
             b[i] = newb
         }
@@ -134,9 +165,19 @@ class Char {
         return new Char(b.map(v => ( (v << 1) | (v >> 7) ) & 0xff));
     }
 
+    rollLeftMC() {
+        const b = this.data
+        return new Char(b.map(v => ( (v << 2) | (v >> 6) ) & 0xff));
+    }
+
     rollRight() {
         const b = this.data
         return new Char(b.map(v => ((v >> 1) | ((v&1) << 7)) & 0xff));
+    }
+
+    rollRightMC() {
+        const b = this.data
+        return new Char(b.map(v => ((v >> 2) | ((v&3) << 6)) & 0xff));
     }
 
     rollUp() {
@@ -155,9 +196,19 @@ class Char {
         return new Char(b.map(v => (v << 1) & 0xff ));
     }
 
+    shiftLeftMC() {
+        const b = this.data
+        return new Char(b.map(v => (v << 2) & 0xff ));
+    }
+
     shiftRight() {
         const b = this.data
         return new Char(b.map(v => (v >> 1) ));
+    }
+
+    shiftRightMC() {
+        const b = this.data
+        return new Char(b.map(v => (v >> 2) ));
     }
 
     shiftUp() {
