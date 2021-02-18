@@ -34,13 +34,11 @@ import Char from "./model/Char"
 import Font from "./model/Font"
 
 import Clipboard from "./Clipboard"
-import PalettePicker from "./PalettePicker"
 import DisableableButton from "./DisableableButton"
 import CharEditField from "./CharEditField"
 import DirectionTable from "./DirectionTable"
 import FontView from "./FontView"
 
-import globals from "./globals"
 import palette from "./palette"
 
 import './App.css';
@@ -221,7 +219,17 @@ class Content extends React.Component {
     }
 
     switchMulticol(mc) {
-        this.setState({multicol: mc})
+        var selectedColor = this.state.selectedColor
+        if (!mc) {
+            // Make sure the selected color is in singlo color range
+            if (selectedColor > 0) {
+                selectedColor = 3
+            }
+        }
+        this.setState({
+            multicol: mc,
+            selectedColor: selectedColor
+        })
     }
 
     render() {
