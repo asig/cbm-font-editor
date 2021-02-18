@@ -18,6 +18,8 @@
  */
 import React from 'react';
 
+import theme from "./theme"
+
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Popper from "@material-ui/core/Popper";
@@ -69,9 +71,19 @@ class ColorSelector extends React.Component {
     }
 
     render() {
-        var textCol = this.state.color == "#000000" ? "#ffffff" : "#000000"
-        return <ButtonGroup>
-            <Button style={{backgroundColor: this.state.color, color: textCol, padding:0, margin:0}} selected onClick={this.props.onClick}>{this.props.children}</Button>
+        console.log(theme)
+
+        var style = {margin: "2px" }
+        if (this.props.selected) {
+            style = {border: "2px solid " + theme.palette.secondary.main}
+        }
+
+        var textCol = this.state.color === "#000000" ? "#ffffff" : "#000000"
+
+        return <ButtonGroup style={style}>
+            <Button style={{backgroundColor: this.state.color, color: textCol, padding:0, margin:0}} onClick={this.props.onClick}>
+                {this.props.children}
+            </Button>
             <Button
                 style={{backgroundColor: this.state.color, color: textCol, padding:0, margin:0, minWidth:0}}
                 size="small"
