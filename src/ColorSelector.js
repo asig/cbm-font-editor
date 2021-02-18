@@ -39,11 +39,6 @@ class ColorSelector extends React.Component {
         };
     }
 
-
-    setColor = (c) => {
-        this.setState({color: c})
-    }
-
     handleToggle = (evt) => {
         this.setState((prevState) => {
             return {
@@ -71,8 +66,6 @@ class ColorSelector extends React.Component {
     }
 
     render() {
-        console.log(theme)
-
         var style = {margin: "2px" }
         if (this.props.selected) {
             style = {border: "2px solid " + theme.palette.secondary.main}
