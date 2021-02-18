@@ -27,7 +27,8 @@ import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
 import CardContent from "@material-ui/core/CardContent"
 
-import ToggleButton from "@material-ui/core/CardHeader"
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Char from "./model/Char"
 import Font from "./model/Font"
@@ -65,6 +66,7 @@ class Content extends React.Component {
         this.applyHistoryState = this.applyHistoryState.bind(this)
         this.selectColor = this.selectColor.bind(this)
         this.setColor = this.setColor.bind(this)
+        this.switchMulticol = this.switchMulticol.bind(this)
 
         this.charEditFieldRef = React.createRef();
         this.fontViewRef = React.createRef();
@@ -75,10 +77,8 @@ class Content extends React.Component {
 
         this.state = {
             selectedColor: 3,
-            color0: palette[1],
-            color1: palette[11],
-            color2: palette[13],
-            color3: palette[0],
+            multicol: false,
+            cols: [palette[1], palette[11], palette[13], palette[0]],
         }
         this.font = new Font(null);
         this.selectedChar = 0;
@@ -213,9 +213,15 @@ class Content extends React.Component {
 
     setColor(idx, col) {
         console.log("setting color: ", idx, col)
-        const s = {}
-        s["color"+idx] = col
-        this.setState(s)
+        this.setState((prevState) => {
+            const cols = prevState.cols
+            cols[idx] = col
+            return { cols: cols}
+        })
+    }
+
+    switchMulticol(mc) {
+        this.setState({multicol: mc})
     }
 
     render() {
@@ -228,7 +234,7 @@ class Content extends React.Component {
                             <CharEditField
                                 zoom={25}
                                 ref={this.charEditFieldRef}
-                                cols={[this.state.color0,this.state.color1, this.state.color2, this.state.color3]}
+                                cols={this.state.cols}
                                 bordercol="darkgray"
                                 setPixel={(x, y, val) => this.modifyChar((c) => c.set(x, y, val))}
                             />
@@ -243,7 +249,7 @@ class Content extends React.Component {
                                 <Box>
                                     <FontView ref={this.fontViewRef}
                                               zoom={3}
-                                              cols={[this.state.color0,this.state.color1, this.state.color2, this.state.color3]}
+                                              cols={this.state.cols}
                                               onSelectChar={this.selectChar}
                                     />
                                 </Box>
@@ -278,44 +284,55 @@ class Content extends React.Component {
                 <Grid item xs={2}>
                     <Card elevation={0}>
                         <CardHeader title={"Colors"}/>
-                        <CardContent>
+                        <CardContent style={{paddingTop: 0}}>
                             <Box display="flex" flexDirection="column">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={this.state.multicol}
+                                            onChange={(evt) => this.switchMulticol(evt.target.checked)}
+                                        />
+                                    }
+                                    label="Multi-Color"
+                                />
                                 <Box>
                                     <ColorSelector
-                                        color={this.state.color0}
-                                        selected={this.state.selectColor === 0}
+                                        color={this.state.cols[0]}
+                                        selected={this.state.selectedColor === 0}
                                         onClick={() => this.selectColor(0)}
                                         onColorSelected={(col) => this.setColor(0, col)}
                                     >
                                         BG
                                     </ColorSelector>
                                     <ColorSelector
-                                        color={this.state.color3}
-                                        selected={this.state.selectColor === 3}
+                                        color={this.state.cols[3]}
+                                        selected={this.state.selectedColor === 3}
                                         onClick={() => this.selectColor(3)}
                                         onColorSelected={(col) => this.setColor(3, col)}
                                     >
                                         FG
                                     </ColorSelector>
                                 </Box>
+                                {this.state.multicol &&
                                 <Box>
                                     <ColorSelector
-                                        color={this.state.color1}
-                                        selected={this.state.selectColor === 1}
+                                        color={this.state.cols[1]}
+                                        selected={this.state.selectedColor === 1}
                                         onClick={() => this.selectColor(1)}
                                         onColorSelected={(col) => this.setColor(1, col)}
                                     >
                                         C1
                                     </ColorSelector>
                                     <ColorSelector
-                                        color={this.state.color2}
-                                        selected={this.state.selectColor === 2}
+                                        color={this.state.cols[2]}
+                                        selected={this.state.selectedColor === 2}
                                         onClick={() => this.selectColor(2)}
                                         onColorSelected={(col) => this.setColor(2, col)}
                                     >
                                         C2
                                     </ColorSelector>
                                 </Box>
+                                }
                             </Box>
                         </CardContent>
                     </Card>
@@ -371,7 +388,7 @@ class Content extends React.Component {
                             <Clipboard
                                 style={{height: "100%"}}
                                 ref={this.clipboardRef}
-                                cols={[this.state.color0,this.state.color1, this.state.color2, this.state.color3]}
+                                cols={this.state.cols}
                                 onCopy={this.copy}
                                 onPaste={this.paste}
                             />
