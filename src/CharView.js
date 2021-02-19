@@ -39,17 +39,23 @@ class CharView extends React.Component {
         };
 
         this.render = this.render.bind(this)
-        this._draw = this._draw.bind(this)
         this.drawCanvas = this.drawCanvas.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
         this.componentDidUpdate = this.componentDidUpdate.bind(this)
         this.setChar = this.setChar.bind(this)
         this.setSelected = this.setSelected.bind(this)
+        this._getPixel = this._getPixel.bind(this)
 
         this.canvasRef = React.createRef()
     }
 
-    _draw(w , getPixel) {
+    _getPixel(x, y) {
+        const mult = this.props.multicol ? 1 : 3
+        return this.state.char.get(x, y, this.props.multicol) * mult
+    }
+
+    drawCanvas() {
+        var w = this.props.multicol ? 4 : 8;
         const canvas = this.canvasRef.current;
         const ctx = canvas.getContext('2d');
         const ew = canvas.width/w;
@@ -58,20 +64,12 @@ class CharView extends React.Component {
         ctx.beginPath();
         for (var y = 0; y < 8; y++) {
             for (var x = 0; x < w; x++) {
-                const v = getPixel(x,y)
+                const v = this._getPixel(x,y)
                 ctx.fillStyle = this.state.selected ? this.props.colsSelected[v] : this.props.cols[v]
                 ctx.fillRect(x*ew, y*eh, ew, eh);
             }
         }
         ctx.restore();
-    }
-
-    drawCanvas() {
-        if (this.props.multicol) {
-            this._draw(4, this.state.char.getMC)
-        } else {
-            this._draw(8, (x,y) => this.state.char.get(x,y)*3)
-        }
     }
 
     setSelected(s) {
