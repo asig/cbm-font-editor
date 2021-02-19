@@ -65,11 +65,8 @@ class CharEditField extends React.Component {
     }
 
     _getPixel(x,y) {
-        if (this.props.multicol) {
-            return this.state.data.getMC(x, y)
-        } else {
-            return this.state.data.get(x, y) * 3
-        }
+        const mult = this.props.multicol ? 1 : 3
+        return this.state.data.get(x, y, this.props.multicol) * mult
     }
 
     drawCanvas() {
@@ -108,7 +105,7 @@ class CharEditField extends React.Component {
         const cy = evt.clientY - rect.top
 
         // Get pixel under cursor
-        const pixelw = this.state.multicol ? 16 : 8;
+        const pixelw = this.props.multicol ? 4 : 8;
         const ew = canvas.width/pixelw;
         const eh = canvas.height/8;
         return [Math.floor(cx/ew), Math.floor(cy/eh)]
