@@ -36,18 +36,19 @@ class CharEditField extends React.Component {
         this.mouseDown = this.mouseDown.bind(this)
         this.mouseUp = this.mouseUp.bind(this)
         this.mouseMove = this.mouseMove.bind(this)
-        this._draw = this._draw.bind(this)
         this.drawCanvas = this.drawCanvas.bind(this)
         this.setChar = this.setChar.bind(this)
         this.getPixelCoords = this.getPixelCoords.bind(this)
-        this.getPixel = this.getPixel.bind(this)
+
+        this._draw = this._draw.bind(this)
+        this._setPixel = this._setPixel.bind(this)
+        this._getPixel = this._getPixel.bind(this)
 
         this.state = {
             data: new Char(null),
         };
 
         this.pressed = false;
-        this.pixelVal = 0
 
         this.canvasRef = React.createRef();
     }
@@ -56,8 +57,23 @@ class CharEditField extends React.Component {
         this.setState({data: c})
     }
 
+    _setPixel(x,y,val) {
+        if (this.props.multicol) {
+            this.props.setPixel(x, y, this.props.selectedColor)
+        } else {
+            this.props.setPixel(x, y, this.props.selectedColor === 0 ? 0 : 1)
+        }
+    }
 
-    _draw(w, getPixel) {
+    _getPixel(x,y) {
+        if (this.props.multicol) {
+            return this.state.data.getMC(x, y) * 3
+        } else {
+            return this.state.data.get(x, y) * 3
+        }
+    }
+
+    _draw(w) {
         const canvas = this.canvasRef.current;
         const ctx = canvas.getContext('2d');
         const ew = canvas.width/w;
@@ -68,7 +84,7 @@ class CharEditField extends React.Component {
         ctx.lineWidth = 1
         for (var y = 0; y < 8; y++) {
             for (var x = 0; x < w; x++) {
-                const v = getPixel(x,y)
+                const v = this._getPixel(x,y)
                 ctx.fillStyle = this.props.cols[v]
                 ctx.fillRect(x*ew, y*eh, ew, eh);
                 ctx.strokeRect(x*ew, y*eh, ew, eh)
@@ -79,9 +95,9 @@ class CharEditField extends React.Component {
 
     drawCanvas() {
         if (this.props.multicol) {
-            this._draw(4, this.state.data.getMC)
+            this._draw(4)
         } else {
-            this._draw(8, (x,y) => this.state.data.get(x,y)*3)
+            this._draw(8)
         }
     }
 
@@ -91,14 +107,6 @@ class CharEditField extends React.Component {
 
     componentDidUpdate() {
         this.drawCanvas()
-    }
-
-    getPixel(x, y) {
-        if (this.state.multicol) {
-            return this.state.data.getMC(2*x,y)
-        } else {
-            return this.state.data.get(x,y)
-        }
     }
 
     getPixelCoords(evt) {
@@ -133,7 +141,7 @@ class CharEditField extends React.Component {
         // }
         // this.props.setPixel(x, y, this.pixelVal)
 
-        this.props.setPixel(x, y, this.props.selectedColor)
+        this._setPixel(x, y, this.props.selectedColor)
     }
 
     mouseUp() {
@@ -149,7 +157,7 @@ class CharEditField extends React.Component {
         this.py = y;
 
         // this.props.setPixel(x, y, this.pixelVal)
-        this.props.setPixel(x, y, this.props.selectedColor)
+        this._setPixel(x, y, this.props.selectedColor)
     }
 
     render() {
