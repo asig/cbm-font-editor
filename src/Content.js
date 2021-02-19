@@ -244,7 +244,7 @@ class Content extends React.Component {
                                 cols={this.state.cols}
                                 selectedColor={this.state.selectedColor}
                                 bordercol="darkgray"
-                                setPixel={(x, y, val) => this.modifyChar((c) => c.set(x, y, val))}
+                                setPixel={(x, y, val) => this.modifyChar((c) => c.set(x, y, val, this.state.multicol))}
                                 ref={this.charEditFieldRef}
                             />
                         </CardContent>
@@ -258,6 +258,7 @@ class Content extends React.Component {
                                 <Box>
                                     <FontView ref={this.fontViewRef}
                                               zoom={3}
+                                              multicol={this.state.multicol}
                                               cols={this.state.cols}
                                               onSelectChar={this.selectChar}
                                     />
@@ -355,8 +356,8 @@ class Content extends React.Component {
                                 title=""
                                 onUp={() => this.modifyChar((c) => c.rollUp())}
                                 onDown={() => this.modifyChar((c) => c.rollDown())}
-                                onLeft={() => this.modifyChar((c) => c.rollLeft())}
-                                onRight={() => this.modifyChar((c) => c.rollRight())}
+                                onLeft={() => this.modifyChar((c) => c.rollLeft(this.state.multicol))}
+                                onRight={() => this.modifyChar((c) => c.rollRight(this.state.multicol))}
                             />
                         </CardContent>
                     </Card>
@@ -370,8 +371,8 @@ class Content extends React.Component {
                                 title=""
                                 onUp={() => this.modifyChar((c) => c.shiftUp())}
                                 onDown={() => this.modifyChar((c) => c.shiftDown())}
-                                onLeft={() => this.modifyChar((c) => c.shiftLeft())}
-                                onRight={() => this.modifyChar((c) => c.shiftRight())}
+                                onLeft={() => this.modifyChar((c) => c.shiftLeft(this.state.multicol))}
+                                onRight={() => this.modifyChar((c) => c.shiftRight(this.state.multicol))}
                             />
                         </CardContent>
                     </Card>
@@ -382,7 +383,7 @@ class Content extends React.Component {
                         <CardContent>
                             <RotationTable
                                 style={{height: "100%"}}
-                                onFlipHorizontally={() => this.modifyChar((c) => c.flipHorizontally())}
+                                onFlipHorizontally={() => this.modifyChar((c) => c.flipHorizontally(this.state.multicol))}
                                 onFlipVertically={() => this.modifyChar((c) => c.flipVertically())}
                                 onRotateCcw={() => this.modifyChar((c) => c.rotateCcw())}
                                 onRotateCw={() => this.modifyChar((c) => c.rotateCw())}
@@ -398,6 +399,7 @@ class Content extends React.Component {
                                 style={{height: "100%"}}
                                 ref={this.clipboardRef}
                                 cols={this.state.cols}
+                                multicol={this.state.multicol}
                                 onCopy={this.copy}
                                 onPaste={this.paste}
                             />

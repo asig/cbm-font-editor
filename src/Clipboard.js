@@ -21,6 +21,7 @@ import React from 'react';
 import DisableableButton from "./DisableableButton";
 import CharView from "./CharView";
 import palette from "./palette";
+import CharEditField from "./CharEditField";
 
 class Clipboard extends React.Component {
 
@@ -70,9 +71,10 @@ class Clipboard extends React.Component {
                 </td>
                 <td align="center">
                     <CharView
+                        multicol={this.props.multicol}
                         ref={this.charViewRef}
                         cols={this.props.cols}
-                        zoom={4}/>
+                        zoom={3}/>
                 </td>
             </tr>
             <tr>
