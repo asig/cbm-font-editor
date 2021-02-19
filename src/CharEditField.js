@@ -41,7 +41,6 @@ class CharEditField extends React.Component {
         this.setChar = this.setChar.bind(this)
         this.getPixelCoords = this.getPixelCoords.bind(this)
         this.getPixel = this.getPixel.bind(this)
-        this.setPixel = this.setPixel.bind(this)
 
         this.state = {
             data: new Char(null),
@@ -102,14 +101,6 @@ class CharEditField extends React.Component {
         }
     }
 
-    setPixel(x, y, c) {
-        if (this.state.multicol) {
-            this.state.data.setMC(x, y, c)
-        } else {
-            this.state.data.set(x, y, c)
-        }
-    }
-
     getPixelCoords(evt) {
         const canvas = this.canvasRef.current;
         const rect = canvas.getBoundingClientRect()
@@ -134,13 +125,15 @@ class CharEditField extends React.Component {
         this.px = x
         this.py = y
 
-        var pix = this.state.data.get(x,y)
-        if (pix) {
-            this.pixelVal = 0
-        } else {
-            this.pixelVal = 1
-        }
-        this.props.setPixel(x, y, this.pixelVal)
+        // var pix = this.state.data.get(x,y)
+        // if (pix) {
+        //     this.pixelVal = 0
+        // } else {
+        //     this.pixelVal = 1
+        // }
+        // this.props.setPixel(x, y, this.pixelVal)
+
+        this.props.setPixel(x, y, this.props.selectedColor)
     }
 
     mouseUp() {
@@ -155,7 +148,8 @@ class CharEditField extends React.Component {
         this.px = x;
         this.py = y;
 
-        this.props.setPixel(x, y, this.pixelVal)
+        // this.props.setPixel(x, y, this.pixelVal)
+        this.props.setPixel(x, y, this.props.selectedColor)
     }
 
     render() {
@@ -169,7 +163,6 @@ class CharEditField extends React.Component {
             onMouseMove={this.mouseMove}
         ></canvas>
     }
-
 }
 
 export default CharEditField;

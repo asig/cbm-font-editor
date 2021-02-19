@@ -205,7 +205,6 @@ class Content extends React.Component {
     }
 
     selectColor(idx) {
-        console.log("Selected color: ", idx)
         this.setState({selectedColor: idx})
     }
 
@@ -243,6 +242,7 @@ class Content extends React.Component {
                                 zoom={25}
                                 ref={this.charEditFieldRef}
                                 cols={this.state.cols}
+                                selectedColor={this.state.selectedColor}
                                 bordercol="darkgray"
                                 setPixel={(x, y, val) => this.modifyChar((c) => c.set(x, y, val))}
                             />
