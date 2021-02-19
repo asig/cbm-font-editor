@@ -20,7 +20,7 @@
 var globals = {
     product: {
         name: "CBM Font Editor",
-        version: "0.1",
+        version: "0.2",
     },
     colors: {
         white: "#ffffff",
