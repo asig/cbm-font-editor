@@ -240,11 +240,12 @@ class Content extends React.Component {
                         <CardContent>
                             <CharEditField
                                 zoom={25}
-                                ref={this.charEditFieldRef}
+                                multicol={this.state.multicol}
                                 cols={this.state.cols}
                                 selectedColor={this.state.selectedColor}
                                 bordercol="darkgray"
                                 setPixel={(x, y, val) => this.modifyChar((c) => c.set(x, y, val))}
+                                ref={this.charEditFieldRef}
                             />
                         </CardContent>
                     </Card>
