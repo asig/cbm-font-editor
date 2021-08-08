@@ -33,6 +33,7 @@ import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Utils from "./Utils";
 import globals from "./globals";
 
 class SaveDialog extends React.Component {
@@ -60,6 +61,8 @@ class SaveDialog extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.oldKeyHandler = null;
 
         this.state = SaveDialog.defaultState
 
@@ -146,7 +149,7 @@ class SaveDialog extends React.Component {
         if (s.substr(0, 1) === "$") {
             s = "0x" + s.substr(1)
         }
-        return new Number(s)
+        return Number(s)
     }
 
     validateNumber(s) {
@@ -273,6 +276,14 @@ class SaveDialog extends React.Component {
             }
         }
         return data
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.open && !this.state.open) {
+            Utils.installKeyHandler(this.oldKeyHandler)
+        } else if (!prevState.open && this.state.open) {
+            this.oldKeyHandler = Utils.installKeyHandler((e) => {})
+        }
     }
 
     handleSave(evt) {
