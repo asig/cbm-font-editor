@@ -71,7 +71,6 @@ class Char {
     }
 
     set(x, y, val, multicol) {
-        console.log("set ",x,y,val,multicol)
         const b = this.data
         var res = b.map(v => v)
         if (multicol) {
