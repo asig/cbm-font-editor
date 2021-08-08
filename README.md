@@ -21,7 +21,7 @@ The latest version of this app is always deployed to [cbmfonteditor.com](https:/
 This project uses `npm` to build. If you don't have `npm` installed yet, head
 over to https://www.npmjs.com/get-npm first.
  
-### Install required deoendencies
+### Install required dependencies
 Install the dependencies with `npm install`
 
 ### Build the app
