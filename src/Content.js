@@ -17,17 +17,18 @@
  * along with cbm-font-editor.  If not, see <http://www.gnu.org/licenses/>.
  */
 import React from "react"
-import Grid from "@material-ui/core/Grid"
-import Box from "@material-ui/core/Box"
 
 import UndoIcon from '@material-ui/icons/Undo'
 import RedoIcon from '@material-ui/icons/Redo'
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
+import Grid from "@material-ui/core/Grid"
+import Box from "@material-ui/core/Box"
 import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
 import CardContent from "@material-ui/core/CardContent"
-
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox';
 
 import Char from "./model/Char"
@@ -38,14 +39,16 @@ import DisableableButton from "./DisableableButton"
 import CharEditField from "./CharEditField"
 import DirectionTable from "./DirectionTable"
 import FontView from "./FontView"
+import RotationTable from "./RotationTable";
+import ColorSelector from "./ColorSelector";
+import Utils from "./Utils"
 
 import palette from "./palette"
 
 import './App.css';
-import RotationTable from "./RotationTable";
-import ColorSelector from "./ColorSelector";
 
 class Content extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -65,6 +68,25 @@ class Content extends React.Component {
         this.selectColor = this.selectColor.bind(this)
         this.setColor = this.setColor.bind(this)
         this.switchMulticol = this.switchMulticol.bind(this)
+        this.handleKeyEvent = this.handleKeyEvent.bind(this)
+
+        this.shiftUp = this.shiftUp.bind(this)
+        this.shiftDown = this.shiftDown.bind(this)
+        this.shiftLeft = this.shiftLeft.bind(this)
+        this.shiftRight = this.shiftRight.bind(this)
+        this.rollUp = this.rollUp.bind(this)
+        this.rollDown = this.rollDown.bind(this)
+        this.rollLeft = this.rollLeft.bind(this)
+        this.rollRight = this.rollRight.bind(this)
+
+        this.invertChar = this.invertChar.bind(this)
+        this.clearChar = this.clearChar.bind(this)
+        this.fillChar = this.fillChar.bind(this)
+
+        this.showLoadFontDlg = this.showLoadFontDlg.bind(this)
+        this.showSaveFontDlg = this.showSaveFontDlg.bind(this)
+        this.showHelp = this.showHelp.bind(this)
+        this.showAbout = this.showAbout.bind(this)
 
         this.charEditFieldRef = React.createRef();
         this.fontViewRef = React.createRef();
@@ -74,32 +96,140 @@ class Content extends React.Component {
         this.clipboardRef = React.createRef()
 
         this.state = {
+            selectedChar: 0,
             selectedColor: 3,
             multicol: false,
             cols: [palette[1], palette[11], palette[13], palette[0]],
         }
         this.font = new Font(null);
-        this.selectedChar = 0;
 
         this.history = [{selected: 0, ch: new Char(null)}];
         this.historyCurPos = 0;
+
+        this.keyboardShortcuts = [
+            {
+                spec: ["SHIFT|ArrowUp"],
+                handler: this.shiftUp
+            },
+            {
+                spec: ["SHIFT|ArrowDown"],
+                handler: this.shiftDown
+            },
+            {
+                spec: ["SHIFT|ArrowLeft"],
+                handler: this.shiftLeft
+            },
+            {
+                spec: ["SHIFT|ArrowRight"],
+                handler: this.shiftRight
+            },
+            {
+                spec: ["ArrowUp"],
+                handler: this.rollUp
+            },
+            {
+                spec: ["ArrowDown"],
+                handler: this.rollDown
+            },
+            {
+                spec: ["ArrowLeft"],
+                handler: this.rollLeft
+            },
+            {
+                spec: ["ArrowRight"],
+                handler: this.rollRight
+            },
+            {
+                key: ["F1", "?"],
+                handler: this.showHelp
+            },
+            {
+                spec: [Utils.isMac() ? "META|s" : "CTRL|s"],
+                handler: this.showSaveFontDlg
+            },
+            {
+                spec: [Utils.isMac() ? "META|o" : "CTRL|o"],
+                handler: this.showLoadFontDlg
+            },
+            {
+                spec: [Utils.isMac() ? "META|c" : "CTRL|c"],
+                handler: this.copy
+            },
+            {
+                spec: [Utils.isMac() ? "META|v" : "CTRL|v"],
+                handler: this.paste
+            },
+            {
+                spec: [Utils.isMac() ? "META|z" : "CTRL|z"],
+                handler: () => { if (this.canUndo()) { this.undo() } }
+            },
+            {
+                spec: [Utils.isMac() ? "SHIFT|META|Z" : "SHIFT|CTRL|Z"],
+                handler: () => { if (this.canRedo()) { this.redo() } }
+            },
+            {
+                key: ["i"],
+                handler: this.invertChar
+            },
+            {
+                key: ["f"],
+                handler: this.fillChar
+            },
+            {
+                key: ["c"],
+                handler: this.clearChar
+            },
+        ]
+    }
+
+    componentDidMount() {
+        this.parentKeyHandler = Utils.installKeyHandler(this.handleKeyEvent)
+    }
+
+    handleKeyEvent(evt) {
+        const code = Utils.keyEventToString(evt)
+        const key = evt.key
+        for (var i = 0; i < this.keyboardShortcuts.length; i++) {
+            const s = this.keyboardShortcuts[i]
+            if (s.spec) {
+                for (var j = 0; j < s.spec.length; j++) {
+                    if (s.spec[j] === code) {
+                        s.handler()
+                        return false;
+                    }
+                }
+            }
+            if (s.key) {
+                for (var j = 0; j < s.key.length; j++) {
+                    if (s.key[j] === key) {
+                        s.handler()
+                        return false;
+                    }
+                }
+            }
+        }
+        return this.parentKeyHandler(evt)
     }
 
     applyHistoryState(s) {
-        if ('selected' in s) {
-            this.selectedChar = s.selected
-            this.fontViewRef.current.selectChar(this.selectedChar);
-            this.charEditFieldRef.current.setChar(this.font.getChar(this.selectedChar))
-        }
-        if ('ch' in s) {
-            this.charEditFieldRef.current.setChar(s.ch)
-            const fv = this.fontViewRef.current
-            fv.updateChar(this.selectedChar, s.ch);
-            this.font.setChar(this.selectedChar, s.ch)
-        }
+        const selectedChar = s.selected
+        this.setState({selectedChar: selectedChar})
+        this.fontViewRef.current.selectChar(selectedChar);
+        this.charEditFieldRef.current.setChar(this.font.getChar(selectedChar))
+        this.charEditFieldRef.current.setChar(s.ch)
+        const fv = this.fontViewRef.current
+        fv.updateChar(selectedChar, s.ch);
+        this.font.setChar(selectedChar, s.ch)
     }
 
     addToHistory(s) {
+        if (this.historyCurPos > 0) {
+            // Only add to history if s is different from top element
+            const s0 = this.history[this.historyCurPos]
+            if ((s0.selected === s.selected) && (s0.ch.isEqual(s.ch))) {
+                return
+            }
+        }
         this.history.length = this.historyCurPos + 1
         this.history.push(s)
         this.historyCurPos++;
@@ -123,7 +253,7 @@ class Content extends React.Component {
     }
 
     copy() {
-        this.clipboardRef.current.setChar(this.font.getChar(this.selectedChar))
+        this.clipboardRef.current.setChar(this.font.getChar(this.state.selectedChar))
     }
 
     paste() {
@@ -145,25 +275,85 @@ class Content extends React.Component {
     }
 
     updateChar(newChar) {
-        this.font.setChar(this.selectedChar, newChar)
+        this.font.setChar(this.state.selectedChar, newChar)
         this.charEditFieldRef.current.setChar(newChar)
-        this.fontViewRef.current.updateChar(this.selectedChar, newChar);
-        this.addToHistory({selected: this.selectedChar, ch: newChar})
+        this.fontViewRef.current.updateChar(this.state.selectedChar, newChar);
+        this.addToHistory({selected: this.state.selectedChar, ch: newChar})
     }
 
     modifyChar(modifierFunc) {
-        this.updateChar(modifierFunc(this.font.getChar(this.selectedChar)))
+        this.updateChar(modifierFunc(this.font.getChar(this.state.selectedChar)))
     }
 
     selectChar(i) {
-        if (this.selectedChar === i) {
+        if (this.state.selectedChar === i) {
             return
         }
-        this.selectedChar = i;
+        this.setState({selectedChar: i})
         const c = this.font.getChar(i)
         this.charEditFieldRef.current.setState({data: c})
         this.fontViewRef.current.selectChar(i);
         this.addToHistory({selected: i, ch: c})
+    }
+
+    shiftUp() {
+        this.modifyChar((c) => c.shiftUp())
+    }
+
+    shiftDown() {
+        this.modifyChar((c) => c.shiftDown())
+    }
+
+    shiftLeft() {
+        this.modifyChar((c) => c.shiftLeft(this.state.multicol))
+    }
+
+    shiftRight() {
+        this.modifyChar((c) => c.shiftRight(this.state.multicol))
+    }
+
+    rollUp() {
+        this.modifyChar((c) => c.rollUp())
+    }
+
+    rollDown() {
+        this.modifyChar((c) => c.rollDown())
+    }
+
+    rollLeft() {
+        this.modifyChar((c) => c.rollLeft(this.state.multicol))
+    }
+
+    rollRight() {
+        this.modifyChar((c) => c.rollRight(this.state.multicol))
+    }
+
+    invertChar() {
+        this.modifyChar((c) => c.invert())
+    }
+
+    fillChar() {
+        this.modifyChar((c) => c.fill())
+    }
+
+    clearChar() {
+        this.modifyChar((c) => c.clear())
+    }
+
+    showHelp() {
+        this.props.helpDialogRef.current.showDialog()
+    }
+
+    showAbout() {
+        this.props.aboutDialogRef.current.showDialog()
+    }
+
+    showLoadFontDlg() {
+        this.fileInputRef.current.click()
+    }
+
+    showSaveFontDlg() {
+        this.props.saveDialogRef.current.showDialog(this.font)
     }
 
     loadFont(f) {
@@ -193,10 +383,10 @@ class Content extends React.Component {
             fv.setFont(this.font)
 
             // Set selected char
-            const ch = this.font.getChar(this.selectedChar)
+            const ch = this.font.getChar(this.state.selectedChar)
             cef.setChar(ch)
 
-            this.resetHistory({selected: this.selectedChar, ch: ch})
+            this.resetHistory({selected: this.state.selectedChar, ch: ch})
         };
         reader.onerror = (e) => {
             this.props.errorMessageRef.current.showError("Error while loading file: " + e)
@@ -209,11 +399,10 @@ class Content extends React.Component {
     }
 
     setColor(idx, col) {
-        console.log("setting color: ", idx, col)
         this.setState((prevState) => {
             const cols = prevState.cols
             cols[idx] = col
-            return { cols: cols}
+            return {cols: cols}
         })
     }
 
@@ -236,7 +425,7 @@ class Content extends React.Component {
             <Grid container justify="center" alignItems="stretch" spacing={3} style={{flexGrow: 1}}>
                 <Grid item xs={3} style={{height: "100%"}}>
                     <Card elevation={0}>
-                        <CardHeader title={"Character"}/>
+                        <CardHeader title={"Character (0x" + this.state.selectedChar.toString(16).padStart(2, '0') +" / " + this.state.selectedChar + ")"} />
                         <CardContent>
                             <CharEditField
                                 zoom={25}
@@ -276,14 +465,14 @@ class Content extends React.Component {
                                         <DisableableButton
                                             style={{marginBottom: "1rem", marginLeft: "1rem"}}
                                             variant="contained"
-                                            onClick={() => this.fileInputRef.current.click()}>
+                                            onClick={this.showLoadFontDlg}>
                                             Load
                                         </DisableableButton>
                                     </Box>
                                     <DisableableButton
                                         style={{marginBottom: "1rem", marginLeft: "1rem"}}
                                         variant="contained"
-                                        onClick={() => this.props.saveDialogRef.current.showDialog(this.font)}>
+                                        onClick={this.showSaveFontDlg}>
                                         Save
                                     </DisableableButton>
                                 </Box>
@@ -354,10 +543,10 @@ class Content extends React.Component {
                             <DirectionTable
                                 style={{height: "100%"}}
                                 title=""
-                                onUp={() => this.modifyChar((c) => c.rollUp())}
-                                onDown={() => this.modifyChar((c) => c.rollDown())}
-                                onLeft={() => this.modifyChar((c) => c.rollLeft(this.state.multicol))}
-                                onRight={() => this.modifyChar((c) => c.rollRight(this.state.multicol))}
+                                onUp={this.rollUp}
+                                onDown={this.rollDown}
+                                onLeft={this.rollLeft}
+                                onRight={this.rollRight}
                             />
                         </CardContent>
                     </Card>
@@ -369,10 +558,10 @@ class Content extends React.Component {
                             <DirectionTable
                                 style={{height: "100%"}}
                                 title=""
-                                onUp={() => this.modifyChar((c) => c.shiftUp())}
-                                onDown={() => this.modifyChar((c) => c.shiftDown())}
-                                onLeft={() => this.modifyChar((c) => c.shiftLeft(this.state.multicol))}
-                                onRight={() => this.modifyChar((c) => c.shiftRight(this.state.multicol))}
+                                onUp={this.shiftUp}
+                                onDown={this.shiftDown}
+                                onLeft={this.shiftLeft}
+                                onRight={this.shiftRight}
                             />
                         </CardContent>
                     </Card>
@@ -415,30 +604,32 @@ class Content extends React.Component {
                                     <DisableableButton
                                         style={{width: "90%"}}
                                         variant="contained"
-                                        onClick={() => this.modifyChar((c) => c.invert())}>
+                                        onClick={this.invertChar}>
                                         Invert
                                     </DisableableButton>
                                 </Box>
-                                <Box flex={1}>
-                                    <DisableableButton
-                                        style={{width: "90%"}}
-                                        variant="contained"
-                                        onClick={() => this.modifyChar((c) => c.clear())}>
-                                        Clear
-                                    </DisableableButton>
+                                <Box display="flex" flexDirection="column" flex={1}>
+                                    <Box flex={1}>
+                                        <DisableableButton
+                                            style={{width: "90%"}}
+                                            variant="contained"
+                                            onClick={this.clearChar}>
+                                            Clear
+                                        </DisableableButton>
+                                    </Box>
+                                    <Box flex={1}>
+                                        <DisableableButton
+                                            style={{width: "90%"}}
+                                            variant="contained"
+                                            onClick={this.fillChar}>
+                                            Fill
+                                        </DisableableButton>
+                                    </Box>
                                 </Box>
-                                <Box flex={1}>
-                                    <DisableableButton
-                                        style={{width: "90%"}}
-                                        variant="contained"
-                                        onClick={() => this.modifyChar((c) => c.fill())}>
-                                        Fill
-                                    </DisableableButton>
-                                </Box>
-                                <Box display="flex" flexDirection="column">
+                                <Box display="flex" flexDirection="column" flex={1}>
                                     <Box>
                                         <DisableableButton
-                                            style={{width: "90%", marginBottom:"0.5rem"}}
+                                            style={{width: "90%", marginBottom: "0.5rem"}}
                                             startIcon={<UndoIcon/>}
                                             enabled={this.canUndo()}
                                             variant="contained"
@@ -456,6 +647,26 @@ class Content extends React.Component {
                                             startIcon={<RedoIcon/>}
                                             onClick={this.redo}>
                                             Redo
+                                        </DisableableButton>
+                                    </Box>
+                                </Box>
+                                <Box display="flex" flexDirection="column" flex={1}>
+                                    <Box>
+                                        <DisableableButton
+                                            style={{width: "90%", marginBottom: "0.5rem"}}
+                                            variant="contained"
+                                            startIcon={<HelpOutlineOutlinedIcon/>}
+                                            onClick={this.showHelp}>
+                                            Help
+                                        </DisableableButton>
+                                    </Box>
+                                    <Box>
+                                        <DisableableButton
+                                            style={{width: "90%"}}
+                                            variant="contained"
+                                            startIcon={<InfoOutlinedIcon/>}
+                                            onClick={this.showAbout}>
+                                            About
                                         </DisableableButton>
                                     </Box>
                                 </Box>
