@@ -31,6 +31,8 @@ import Content from "./Content";
 import WelcomeDialog from "./WelcomeDialog";
 import ErrorMsg from "./ErrorMsg";
 import SaveDialog from "./SaveDialog";
+import AboutDialog from "./AboutDialog";
+import HelpDialog from "./HelpDialog";
 
 class App extends React.Component {
     constructor(props) {
@@ -40,6 +42,8 @@ class App extends React.Component {
 
         this.errorMessageRef = React.createRef()
         this.saveDialogRef = React.createRef()
+        this.aboutDialogRef = React.createRef()
+        this.helpDialogRef = React.createRef()
     }
 
     render() {
@@ -51,7 +55,12 @@ class App extends React.Component {
                             <img src={Logo} width={"100%"} alt={"CBM Font Editor"}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <Content errorMessageRef={this.errorMessageRef} saveDialogRef={this.saveDialogRef}/>
+                            <Content
+                                errorMessageRef={this.errorMessageRef}
+                                saveDialogRef={this.saveDialogRef}
+                                aboutDialogRef={this.aboutDialogRef}
+                                helpDialogRef={this.helpDialogRef}
+                            />
                         </Grid>
                     </Grid>
                 </Container>
@@ -61,6 +70,8 @@ class App extends React.Component {
                 <ErrorMsg ref={this.errorMessageRef}/>
                 <WelcomeDialog open={true}/>
                 <SaveDialog ref={this.saveDialogRef} />
+                <AboutDialog ref={this.aboutDialogRef} />
+                <HelpDialog ref={this.helpDialogRef} />
             </ThemeProvider>
         );
     }
