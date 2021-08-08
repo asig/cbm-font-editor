@@ -21,7 +21,6 @@ import React from 'react';
 import DisableableButton from "./DisableableButton";
 import CharView from "./CharView";
 import palette from "./palette";
-import CharEditField from "./CharEditField";
 
 class Clipboard extends React.Component {
 
