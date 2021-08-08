@@ -37,7 +37,7 @@ class WelcomeDialog extends React.Component {
     }
 
     static dontShowKey = "dontShowWelcomeVersion"
-    static dontShowVersion = "1"
+    static dontShowVersion = "2"
 
     constructor(props) {
         super(props);
@@ -90,7 +90,8 @@ class WelcomeDialog extends React.Component {
                         from <a href="http://www.zimmers.net/anonftp/pub/cbm/firmware/characters/" target="_blank">zimmers.net</a>.
                     </p>
                     <p>
-                        As of version 0.2, both monochrome and multicolor fonts are supported.
+                        As of version 0.2, both monochrome and multicolor fonts are supported, and version 0.3 added
+                        keyboard shortcuts.
                     </p>
                     <p>
                         And last but not least, this app completely runs in your browser. All your data is kept on your
