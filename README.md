@@ -32,5 +32,5 @@ To start the app, just execute `npm start`, and point your browser to
 [http://localhost:3000/](http://localhost:3000/) 
 
 ## License
-Copyright (c) 2021 Andreas Signer.  
+Copyright (c) 2022 Andreas Signer.  
 Licensed under [GPLv3](https://www.gnu.org/licenses/gpl-3.0).
