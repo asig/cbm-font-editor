@@ -93,21 +93,6 @@ func main() {
 	fonts = append(fonts, font{"VIC-20 Jp UC", buf[0:2048]})
 	fonts = append(fonts, font{"VIC-20 Jp LC", buf[2048:4096]})
 
-	fonts = append(fonts, font{"", []byte{}})
-
-	buf, _ = ioutil.ReadFile("CBM-II/chargen.500")
-	fonts = append(fonts, font{"CBM-II 500 UC", buf[0:2048]})
-	fonts = append(fonts, font{"CBM-II 500 LC", buf[2048:4096]})
-
-	buf, _ = ioutil.ReadFile("CBM-II/chargen.600")
-	fonts = append(fonts, font{"CBM-II 600 UC", buf[0:2048]})
-	fonts = append(fonts, font{"CBM-II 600 LC", buf[2048:4096]})
-
-	buf, _ = ioutil.ReadFile("CBM-II/chargen.700")
-	fonts = append(fonts, font{"CBM-II 700 UC", buf[0:2048]})
-	fonts = append(fonts, font{"CBM-II 700 LC", buf[2048:4096]})
-
-
 	content := `/*
  * Copyright (c) 2022 Andreas Signer <asigner@gmail.com>
  *
@@ -137,5 +122,5 @@ var embedded_fonts = [
 export default embedded_fonts;
 `
 
-	ioutil.WriteFile("../../src/embedded_fonts.js", []byte(content), 0644)
+	ioutil.WriteFile("../../src/EmbeddedFonts.js", []byte(content), 0644)
 }
