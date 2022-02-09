@@ -113,13 +113,13 @@ func main() {
  */
 
 // GENERATED FILE, DO NOT EDIT
-var embedded_fonts = [
+var EmbeddedFonts = [
 `
 	for _, f := range fonts {
 		content = content + genFont(f)
 	}
 	content += `]
-export default embedded_fonts;
+export default EmbeddedFonts;
 `
 
 	ioutil.WriteFile("../../src/EmbeddedFonts.js", []byte(content), 0644)
