@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0] - 2022-02-09
+
+### Added
+
+- Commodore ROM fonts are built in now 
+
 ## [0.3.0] - 2021-08-08
 
 ### Added
