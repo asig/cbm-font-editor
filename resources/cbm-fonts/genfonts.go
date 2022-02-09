@@ -17,7 +17,7 @@
  * along with cbm-font-editor.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// This program generates the embedded_fonts.js javascript source.
+// This program generates the EmbeddedFonts.js javascript source.
 //
 // Run it with 'go run genfonts.go'
 //
@@ -51,20 +51,20 @@ func main() {
 	buf, _ := ioutil.ReadFile("C128/chargen")
 	//fonts = append(fonts, font{"C128 Intl 001", buf[0:2048]})
 	//fonts = append(fonts, font{"C128 Intl 002", buf[2048:4096]})
-	fonts = append(fonts, font{"C128 Intl UC", buf[4096:6144]})
-	fonts = append(fonts, font{"C128 Intl LC", buf[6144:8192]})
+	fonts = append(fonts, font{"C128 UC", buf[4096:6144]})
+	fonts = append(fonts, font{"C128 LC", buf[6144:8192]})
 
 	buf, _ = ioutil.ReadFile("C128/chargch")
-	fonts = append(fonts, font{"C128 Swiss DIN/ASCII UC", buf[0:2048]})
-	fonts = append(fonts, font{"C128 Swiss DIN/ASCII LC", buf[2048:4096]})
 	fonts = append(fonts, font{"C128 Swiss UC", buf[4096:6144]})
 	fonts = append(fonts, font{"C128 Swiss LC", buf[6144:8192]})
+	fonts = append(fonts, font{"C128 Swiss DIN UC", buf[0:2048]})
+	fonts = append(fonts, font{"C128 Swiss DIN LC", buf[2048:4096]})
 
 	buf, _ = ioutil.ReadFile("C128/chargde")
 	fonts = append(fonts, font{"C128 German UC", buf[0:2048]})
 	fonts = append(fonts, font{"C128 German LC", buf[2048:4096]})
-	fonts = append(fonts, font{"C128 German DIN/ASCII UC", buf[4096:6144]})
-	fonts = append(fonts, font{"C128 German DIN/ASCII LC", buf[6144:8192]})
+	fonts = append(fonts, font{"C128 German DIN UC", buf[4096:6144]})
+	fonts = append(fonts, font{"C128 German DIN LC", buf[6144:8192]})
 
 	fonts = append(fonts, font{"", []byte{}})
 
@@ -78,7 +78,7 @@ func main() {
 	fonts = append(fonts, font{"SuperPET ASCII", buf[2048:4096]})
 
 	buf, _ = ioutil.ReadFile("PET/characters-2.901447-10.bin")
-	fonts = append(fonts, font{"PET Intl", buf[0:2048]})
+	fonts = append(fonts, font{"PET", buf[0:2048]})
 
 	buf, _ = ioutil.ReadFile("PET/chargen.de")
 	fonts = append(fonts, font{"PET German", buf[0:2048]})
@@ -90,8 +90,8 @@ func main() {
 	fonts = append(fonts, font{"VIC-20 LC", buf[2048:4096]})
 
 	buf, _ = ioutil.ReadFile("VIC20/chargen-jp")
-	fonts = append(fonts, font{"VIC-20 Jp UC", buf[0:2048]})
-	fonts = append(fonts, font{"VIC-20 Jp LC", buf[2048:4096]})
+	fonts = append(fonts, font{"VIC-20 Japanese UC", buf[0:2048]})
+	fonts = append(fonts, font{"VIC-20 Japanese LC", buf[2048:4096]})
 
 	content := `/*
  * Copyright (c) 2022 Andreas Signer <asigner@gmail.com>
