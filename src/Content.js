@@ -44,13 +44,11 @@ import FontView from "./FontView"
 import RotationTable from "./RotationTable"
 import ColorSelector from "./ColorSelector"
 import Utils from "./Utils"
-
 import palette from "./palette"
-
-import './App.css'
 import EmbeddedFonts from "./EmbeddedFonts"
 
 import './FontMenuItem.css'
+import './App.css'
 
 function FontMenuItem(props) {
     if (props.isSeparator) {
@@ -453,6 +451,10 @@ class Content extends React.Component {
             multicol: mc,
             selectedColor: selectedColor
         })
+    }
+
+    componentDidMount() {
+        this.loadFontFromData(EmbeddedFonts[0].data)
     }
 
     render() {
