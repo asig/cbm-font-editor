@@ -65,7 +65,7 @@ class App extends React.Component {
                     </Grid>
                 </Container>
                 <footer>
-                    © 2021 Andreas Signer
+                    © 2022 Andreas Signer
                 </footer>
                 <ErrorMsg ref={this.errorMessageRef}/>
                 <WelcomeDialog open={true}/>
