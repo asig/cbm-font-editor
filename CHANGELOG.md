@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.1] - 2022-02-12
+
+### Fixed
+
+- Keyboard shortcuts are working again (broken in Version 0.4.0)
+
 ## [0.4.0] - 2022-02-09
 
 ### Added
