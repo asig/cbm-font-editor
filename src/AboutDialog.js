@@ -58,7 +58,7 @@ class AboutDialog extends React.Component {
                 <DialogContentText>
                     <b>{globals.product.name} v{globals.product.version}</b>
                     <p>
-                        © 2021 Andreas Signer
+                        © 2022 Andreas Signer
                     </p>
                     <p>
                         <a href="https://github.com/asig/cbm-font-editor">github.com/asig/cbm-font-editor</a>
