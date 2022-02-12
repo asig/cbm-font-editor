@@ -5,14 +5,8 @@ range of Commodore home computers, and to store your creations as binary files
 (in plain and 'prg' format), as BASIC programs, or as source code for the
 cbmasm cross-assembler.
 
-To get started, you need a 2k Commodore font in binary format, which you
-can get for example at [zimmers.net](http://www.zimmers.net/anonftp/pub/cbm/firmware/characters/).
-
-This is an early version with basic functionality. Most notably, multi-color
-fonts are not supported yet.
-
-And last but not least, this app completely runs in your browser. All your
-data is kept on your own machine, nothing is sent over the internets!
+This app completely runs in your browser. All your data are belong to you!
+Everything is kept on your own machine, nothing is sent over the internets!
 
 The latest version of this app is always deployed to [cbmfonteditor.com](https://cbmfonteditor.com/)
 ## Build and run the app
