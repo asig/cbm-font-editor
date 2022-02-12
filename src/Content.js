@@ -52,10 +52,10 @@ import './App.css'
 
 function FontMenuItem(props) {
     if (props.isSeparator) {
-        return <hr class={"FontMenuItem"}/>
+        return <hr className={"FontMenuItem"}/>
     }
     return (
-        <MenuItem className={["FontMenuItem", props.classNames]} onClick={props.onClick}>{props.children}</MenuItem>
+        <MenuItem className={"FontMenuItem"} onClick={props.onClick}>{props.children}</MenuItem>
     );
 }
 
@@ -202,6 +202,7 @@ class Content extends React.Component {
 
     componentDidMount() {
         this.parentKeyHandler = Utils.installKeyHandler(this.handleKeyEvent)
+        this.loadFontFromData(EmbeddedFonts[0].data)
     }
 
     handleKeyEvent(evt) {
@@ -451,10 +452,6 @@ class Content extends React.Component {
             multicol: mc,
             selectedColor: selectedColor
         })
-    }
-
-    componentDidMount() {
-        this.loadFontFromData(EmbeddedFonts[0].data)
     }
 
     render() {
