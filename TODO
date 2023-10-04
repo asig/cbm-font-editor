@@ -1,3 +1,9 @@
+Bugs
+----
+[ ] sometimes saving as plain binary stores more than 2048 bytes. Seems to add bytes in the middle of the font...
+
+Features
+--------
 [X] implement char selection
 [X] In FontView don't always update *all* the chars, but just the one that changed.
 [X] Implement save
